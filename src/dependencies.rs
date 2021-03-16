@@ -28,8 +28,11 @@ pub struct Row {
 
 #[derive(Debug)]
 pub enum DependencyKind {
+    /// kind=0
     Normal,
+    /// kind=1
     Build,
+    /// kind=2
     Dev,
 }
 

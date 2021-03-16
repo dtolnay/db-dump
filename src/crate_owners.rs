@@ -11,7 +11,9 @@ use serde::Deserialize;
 
 #[derive(Copy, Clone, Debug)]
 pub enum OwnerId {
+    /// owner_kind=0
     User(UserId),
+    /// owner_kind=1
     Team(TeamId),
 }
 
