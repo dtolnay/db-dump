@@ -1,0 +1,16 @@
+[package]
+name = "db-dump"
+version = "0.0.0"
+authors = ["David Tolnay <dtolnay@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+chrono = "0.4"
+csv = "1.1"
+flate2 = "1.0"
+indicatif = "0.15"
+memmap = "0.7"
+semver = { version = "0.10", features = ["serde"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tar = "0.4"
