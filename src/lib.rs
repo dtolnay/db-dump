@@ -1,3 +1,5 @@
+#![allow(clippy::needless_lifetimes, clippy::never_loop)]
+
 extern crate self as db_dump;
 
 mod bool;
