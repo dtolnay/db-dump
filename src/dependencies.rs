@@ -9,6 +9,7 @@ use std::fmt;
 #[serde(deny_unknown_fields)]
 #[non_exhaustive]
 pub struct Row {
+    /// PRIMARY KEY
     pub id: u32,
     pub version_id: VersionId,
     pub crate_id: CrateId,

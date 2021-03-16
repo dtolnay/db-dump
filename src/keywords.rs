@@ -13,7 +13,9 @@ pub struct KeywordId(pub u32);
 #[serde(deny_unknown_fields)]
 #[non_exhaustive]
 pub struct Row {
+    /// PRIMARY KEY
     pub id: KeywordId,
+    /// UNIQUE
     pub keyword: String,
     pub crates_cnt: u32,
     #[serde(deserialize_with = "crate::datetime::de")]

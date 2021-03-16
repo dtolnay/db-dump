@@ -13,8 +13,11 @@ pub struct CategoryId(pub u32);
 #[serde(deny_unknown_fields)]
 #[non_exhaustive]
 pub struct Row {
+    /// PRIMARY KEY
     pub id: CategoryId,
+    /// UNIQUE
     pub category: String,
+    /// UNIQUE
     pub slug: String,
     pub description: String,
     pub crates_cnt: u32,

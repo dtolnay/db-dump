@@ -12,8 +12,11 @@ pub struct TeamId(pub u32);
 #[serde(deny_unknown_fields)]
 #[non_exhaustive]
 pub struct Row {
+    /// PRIMARY KEY
     pub id: TeamId,
+    /// UNIQUE
     pub login: String,
+    /// UNIQUE
     pub github_id: u32,
     pub name: String,
     pub avatar: String,

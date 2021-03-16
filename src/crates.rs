@@ -14,6 +14,7 @@ pub struct CrateId(pub u32);
 #[serde(deny_unknown_fields)]
 #[non_exhaustive]
 pub struct Row {
+    /// PRIMARY KEY
     pub id: CrateId,
     pub name: String,
     #[serde(deserialize_with = "crate::datetime::de")]

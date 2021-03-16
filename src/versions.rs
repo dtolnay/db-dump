@@ -19,6 +19,7 @@ pub struct VersionId(pub u32);
 #[serde(deny_unknown_fields)]
 #[non_exhaustive]
 pub struct Row {
+    /// PRIMARY KEY
     pub id: VersionId,
     pub crate_id: CrateId,
     pub num: Version,

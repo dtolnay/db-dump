@@ -12,6 +12,7 @@ pub struct UserId(pub u32);
 #[serde(deny_unknown_fields)]
 #[non_exhaustive]
 pub struct Row {
+    /// PRIMARY KEY
     pub id: UserId,
     pub gh_login: String,
     pub name: Option<String>,
