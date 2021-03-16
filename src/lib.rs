@@ -26,19 +26,152 @@ pub use crate::load::{load_all, Loader};
 #[derive(Default)]
 #[non_exhaustive]
 pub struct DbDump {
+    /// <table style="width:initial"><tr>
+    /// <th>badges.csv</th>
+    /// <td>crate_id</td>
+    /// <td>badge_type</td>
+    /// <td>attributes</td>
+    /// </tr></table>
     pub badges: Vec<badges::Row>,
+
+    /// <table style="width:initial"><tr>
+    /// <th>categories.csv</th>
+    /// <td>id</td>
+    /// <td>category</td>
+    /// <td>slug</td>
+    /// <td>description</td>
+    /// <td>crates_cnt</td>
+    /// <td>created_at</td>
+    /// <td>path</td>
+    /// </tr></table>
     pub categories: Vec<categories::Row>,
+
+    /// <table style="width:initial"><tr>
+    /// <th>crate_owners.csv</th>
+    /// <td>crate_id</td>
+    /// <td>owner_id</td>
+    /// <td>created_at</td>
+    /// <td>created_by</td>
+    /// <td>owner_kind</td>
+    /// </tr></table>
     pub crate_owners: Vec<crate_owners::Row>,
+
+    /// <table style="width:initial"><tr>
+    /// <th>crates.csv</th>
+    /// <td>id</td>
+    /// <td>name</td>
+    /// <td>updated_at</td>
+    /// <td>created_at</td>
+    /// <td>downloads</td>
+    /// <td>description</td>
+    /// <td>homepage</td>
+    /// <td>documentation</td>
+    /// <td>readme</td>
+    /// <td>textsearchable_index_col</td>
+    /// <td>repository</td>
+    /// <td>max_upload_size</td>
+    /// </tr></table>
     pub crates: Vec<crates::Row>,
+
+    /// <table style="width:initial"><tr>
+    /// <th>crates_categories.csv</th>
+    /// <td>crate_id</td>
+    /// <td>category_id</td>
+    /// </tr></table>
     pub crates_categories: Vec<crates_categories::Row>,
+
+    /// <table style="width:initial"><tr>
+    /// <th>crates_keywords.csv</th>
+    /// <td>crate_id</td>
+    /// <td>keyword_id</td>
+    /// </tr></table>
     pub crates_keywords: Vec<crates_keywords::Row>,
+
+    /// <table style="width:initial"><tr>
+    /// <th>dependencies.csv</th>
+    /// <td>id</td>
+    /// <td>version_id</td>
+    /// <td>crate_id</td>
+    /// <td>req</td>
+    /// <td>optional</td>
+    /// <td>default_features</td>
+    /// <td>features</td>
+    /// <td>target</td>
+    /// <td>kind</td>
+    /// </tr></table>
     pub dependencies: Vec<dependencies::Row>,
+
+    /// <table style="width:initial"><tr>
+    /// <th>keywords.csv</th>
+    /// <td>id</td>
+    /// <td>keyword</td>
+    /// <td>crates_cnt</td>
+    /// <td>created_at</td>
+    /// </tr></table>
     pub keywords: Vec<keywords::Row>,
+
+    /// <table style="width:initial"><tr>
+    /// <th>metadata.csv</th>
+    /// <td>total_downloads</td>
+    /// </tr></table>
     pub metadata: metadata::Row,
+
+    /// <table style="width:initial"><tr>
+    /// <th>reserved_crate_names.csv</th>
+    /// <td>name</td>
+    /// </tr></table>
     pub reserved_crate_names: Vec<reserved_crate_names::Row>,
+
+    /// <table style="width:initial"><tr>
+    /// <th>teams.csv</th>
+    /// <td>id</td>
+    /// <td>login</td>
+    /// <td>github_id</td>
+    /// <td>name</td>
+    /// <td>avatar</td>
+    /// <td>org_id</td>
+    /// </tr></table>
     pub teams: Vec<teams::Row>,
+
+    /// <table style="width:initial"><tr>
+    /// <th>users.csv</th>
+    /// <td>id</td>
+    /// <td>gh_login</td>
+    /// <td>name</td>
+    /// <td>gh_avatar</td>
+    /// <td>gh_id</td>
+    /// </tr></table>
     pub users: Vec<users::Row>,
+
+    /// <table style="width:initial"><tr>
+    /// <th>version_authors.csv</th>
+    /// <td>id</td>
+    /// <td>version_id</td>
+    /// <td>name</td>
+    /// </tr></table>
     pub version_authors: Vec<version_authors::Row>,
+
+    /// <table style="width:initial"><tr>
+    /// <th>version_downloads.csv</th>
+    /// <td>version_id</td>
+    /// <td>downloads</td>
+    /// <td>date</td>
+    /// </tr></table>
     pub version_downloads: Vec<version_downloads::Row>,
+
+    /// <table style="width:initial"><tr>
+    /// <th>versions.csv</th>
+    /// <td>id</td>
+    /// <td>crate_id</td>
+    /// <td>num</td>
+    /// <td>updated_at</td>
+    /// <td>created_at</td>
+    /// <td>downloads</td>
+    /// <td>features</td>
+    /// <td>yanked</td>
+    /// <td>license</td>
+    /// <td>crate_size</td>
+    /// <td>published_by</td>
+    /// </tr></table>
     pub versions: Vec<versions::Row>,
 }
