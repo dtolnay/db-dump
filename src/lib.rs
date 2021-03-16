@@ -23,6 +23,10 @@ pub mod versions;
 pub use crate::error::{Error, Result};
 pub use crate::load::{load_all, Loader};
 
+/// A crates.io DB dump with *everything* deserialized into memory. Use
+/// [`Loader`] to load only parts of a dump, which is more efficient.
+///
+/// One of these full dumps can be loaded via [`db_dump::load_all`].
 #[derive(Default)]
 #[non_exhaustive]
 pub struct DbDump {

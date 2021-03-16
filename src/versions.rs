@@ -12,11 +12,13 @@ use std::collections::BTreeMap as Map;
 use std::fmt;
 use std::hash::{Hash, Hasher};
 
+/// Primary key of **versions.csv**.
 #[derive(Deserialize, Copy, Clone, Ord, PartialOrd, Eq, PartialEq, Hash, Debug)]
 #[serde(transparent)]
 #[repr(transparent)]
 pub struct VersionId(pub u32);
 
+/// One row of **versions.csv**.
 #[derive(Deserialize, Debug)]
 #[serde(deny_unknown_fields)]
 #[non_exhaustive]

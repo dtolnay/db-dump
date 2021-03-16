@@ -1,10 +1,13 @@
 use std::fmt::{self, Debug, Display};
 use std::io;
 
+/// Error type returned by `db_dump::load_all` and `Loader::load` in the event
+/// that loading crates.io's DB dump from the specified file fails.
 pub struct Error {
     e: ErrorImpl,
 }
 
+/// Result type returned by `db_dump::load_all` and `Loader::load`.
 pub type Result<T> = std::result::Result<T, Error>;
 
 pub(crate) enum ErrorImpl {

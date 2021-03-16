@@ -5,11 +5,13 @@ use std::borrow::Borrow;
 use std::cmp::Ordering;
 use std::hash::{Hash, Hasher};
 
+/// Primary key of **users.csv**.
 #[derive(Deserialize, Copy, Clone, Ord, PartialOrd, Eq, PartialEq, Hash, Debug)]
 #[serde(transparent)]
 #[repr(transparent)]
 pub struct UserId(pub u32);
 
+/// One row of **users.csv**.
 #[derive(Deserialize, Debug)]
 #[serde(deny_unknown_fields)]
 #[non_exhaustive]

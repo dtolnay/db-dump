@@ -3,6 +3,7 @@
 use crate::versions::VersionId;
 use serde::Deserialize;
 
+/// One row of **version_authors.csv**.
 #[derive(Deserialize, Debug)]
 #[serde(deny_unknown_fields)]
 #[non_exhaustive]

@@ -7,6 +7,7 @@ use csv::StringRecord;
 use serde::Deserialize;
 use std::collections::BTreeMap as Map;
 
+/// One row of **badges.csv**.
 #[derive(Debug)]
 #[non_exhaustive]
 pub struct Row {

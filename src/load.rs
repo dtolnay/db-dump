@@ -11,6 +11,7 @@ use std::io::Read;
 use std::path::Path;
 use tar::Archive;
 
+/// Perform a streaming load of only relevant database tables.
 #[derive(Default)]
 pub struct Loader<'a> {
     badges: Option<Callback<'a, crate::badges::Row>>,

@@ -4,6 +4,7 @@ use crate::categories::CategoryId;
 use crate::crates::CrateId;
 use serde::Deserialize;
 
+/// One row of **crates_categories.csv**.
 #[derive(Deserialize, Debug)]
 #[serde(deny_unknown_fields)]
 #[non_exhaustive]

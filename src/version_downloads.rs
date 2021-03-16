@@ -4,6 +4,7 @@ use crate::versions::VersionId;
 use chrono::NaiveDate;
 use serde::Deserialize;
 
+/// One row of **version_downloads.csv**.
 #[derive(Deserialize, Debug)]
 #[serde(deny_unknown_fields)]
 #[non_exhaustive]
