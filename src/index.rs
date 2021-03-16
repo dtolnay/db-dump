@@ -20,6 +20,60 @@ impl DbDump {
 }
 
 /// Lazy index of those tables that have a unique ID column as primary key.
+///
+/// # Example
+///
+/// This example prints the top 5 most downloaded crates in each of the top 20
+/// most popular categories.
+///
+/// ```no_run
+/// use db_dump::categories::CategoryId;
+/// use db_dump::crates::CrateId;
+/// use db_dump::DbDump;
+/// use std::cmp::Reverse;
+/// use std::collections::BTreeMap as Map;
+///
+/// fn main() -> db_dump::Result<()> {
+///     let mut db = DbDump::default();
+///     let ref mut crates = db.crates;
+///     let mut categories = Vec::new();
+///     let mut crates_by_category = Map::<CategoryId, Vec<CrateId>>::new();
+///     db_dump::Loader::new()
+///         .crates(|row| crates.push(row))
+///         .categories(|row| categories.push(row))
+///         .crates_categories(|row| {
+///             crates_by_category
+///                 .entry(row.category_id)
+///                 .or_default()
+///                 .push(row.crate_id)
+///         })
+///         .load("./db-dump.tar.gz")?;
+///
+///     // Lazy index to perform lookups by crate id.
+///     let index = db.index();
+///
+///     // Sort categories descending by number of crates, to print most popular
+///     // categories first.
+///     categories.sort_unstable_by_key(|category| Reverse(category.crates_cnt));
+///
+///     for category in categories.iter().take(20) {
+///         // Get the list of crates in this category.
+///         let mut crates = crates_by_category.remove(&category.id).unwrap_or_default();
+///
+///         // Sort crates list by download count descending.
+///         crates.sort_unstable_by_key(|&id| Reverse(index.krate(id).downloads));
+///
+///         // Print top 5 most downloaded crates in category.
+///         print!("{}", category.slug);
+///         for crate_id in crates.into_iter().take(5) {
+///             print!(",{}", index.krate(crate_id).name);
+///         }
+///         println!();
+///     }
+///
+///     Ok(())
+/// }
+/// ```
 pub struct Index<'a> {
     db: &'a DbDump,
     categories: OnceCell<Map<CategoryId, u32>>,
