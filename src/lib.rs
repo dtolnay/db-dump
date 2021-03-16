@@ -1,4 +1,16 @@
-#![allow(clippy::needless_lifetimes, clippy::never_loop)]
+#![allow(
+    clippy::cast_lossless,
+    clippy::cast_possible_truncation,
+    clippy::doc_markdown,
+    clippy::missing_errors_doc,
+    clippy::missing_panics_doc,
+    clippy::module_name_repetitions,
+    clippy::must_use_candidate,
+    clippy::needless_lifetimes,
+    clippy::never_loop,
+    clippy::too_many_lines,
+    clippy::unseparated_literal_suffix
+)]
 
 extern crate self as db_dump;
 
