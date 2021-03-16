@@ -329,6 +329,46 @@ where
     Ok(())
 }
 
+/// Deserialize *everything* in a crates.io DB dump into memory.
+///
+/// This function is equivalent to the following [`Loader`]-based invocation:
+///
+/// ```
+/// # use std::path::Path;
+/// # use db_dump::Result;
+/// #
+/// # struct DbDump {
+/// #     badges: Vec<db_dump::badges::Row>,
+/// #     categories: Vec<db_dump::categories::Row>,
+/// #     versions: Vec<db_dump::versions::Row>,
+/// # }
+/// #
+/// # pub fn load_all(path: impl AsRef<Path>) -> Result<DbDump> {
+/// #     let path = path.as_ref();
+/// let mut badges = Vec::new();
+/// let mut categories = Vec::new();
+/// /* ... */
+/// let mut versions = Vec::new();
+///
+/// db_dump::Loader::new()
+///     .badges(|row| badges.push(row))
+///     .categories(|row| categories.push(row))
+///     /* ... */
+///     .versions(|row| versions.push(row))
+///     .load(path)?;
+///
+/// Ok(DbDump {
+///     badges,
+///     categories,
+///     /* ... */
+///     versions,
+/// })
+/// # }
+/// ```
+///
+/// Usually whatever you are doing will not require *all* of the information in
+/// a dump, in which case utilizing `Loader` to load just what you need can be
+/// significantly more efficient.
 pub fn load_all(path: impl AsRef<Path>) -> Result<DbDump> {
     do_load_all(path.as_ref())
 }
