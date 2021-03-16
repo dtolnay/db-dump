@@ -15,7 +15,7 @@ The latest dump is available at
 
 ```toml
 [dependencies]
-db-dump = "0.0"
+db-dump = "0.1"
 ```
 
 <br>
