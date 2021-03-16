@@ -12,6 +12,34 @@ use std::path::Path;
 use tar::Archive;
 
 /// Perform a streaming load of only relevant database tables.
+///
+/// # Example
+///
+/// This example loads just the version_downloads.csv table, in which each row
+/// is the download count for a single version of a single crate on a single
+/// day. We do not store the rows individually in memory but instead stream from
+/// the csv to accumulate just a total count per day across all crates, which
+/// requires far less memory.
+///
+/// ```no_run
+/// use chrono::NaiveDate;
+/// use std::collections::BTreeMap as Map;
+///
+/// fn main() -> db_dump::Result<()> {
+///     let mut downloads = Map::<NaiveDate, u64>::new();
+///     db_dump::Loader::new()
+///         .version_downloads(|row| {
+///             *downloads.entry(row.date).or_default() += row.downloads;
+///         })
+///         .load("./dbdump.tar.gz")?;
+///
+///     for (date, count) in downloads {
+///         println!("{},{}", date, count);
+///     }
+///
+///     Ok(())
+/// }
+/// ```
 #[derive(Default)]
 pub struct Loader<'a> {
     badges: Option<Callback<'a, crate::badges::Row>>,
