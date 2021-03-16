@@ -1,3 +1,5 @@
+extern crate self as db_dump;
+
 mod bool;
 mod date;
 mod datetime;
