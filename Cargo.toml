@@ -3,6 +3,11 @@ name = "db-dump"
 version = "0.0.0"
 authors = ["David Tolnay <dtolnay@gmail.com>"]
 edition = "2018"
+license = "MIT OR Apache-2.0"
+description = "Library for scripting analyses against crates.io's database dumps"
+repository = "https://github.com/dtolnay/db-dump"
+documentation = "https://docs.rs/db-dump"
+readme = "README.md"
 
 [dependencies]
 chrono = "0.4"
