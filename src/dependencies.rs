@@ -1,3 +1,5 @@
+//! <b style="font-variant:small-caps">dependencies.csv</b>
+
 use crate::crates::CrateId;
 use crate::versions::VersionId;
 use semver::VersionReq;

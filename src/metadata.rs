@@ -1,3 +1,5 @@
+//! <b style="font-variant:small-caps">metadata.csv</b>
+
 use serde::Deserialize;
 
 #[derive(Deserialize, Default, Debug)]

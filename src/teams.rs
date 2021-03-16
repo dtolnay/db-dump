@@ -1,3 +1,5 @@
+//! <b style="font-variant:small-caps">teams.csv</b>
+
 use serde::Deserialize;
 use std::borrow::Borrow;
 use std::cmp::Ordering;

@@ -1,3 +1,5 @@
+//! <b style="font-variant:small-caps">badges.csv</b>
+
 use crate::crates::CrateId;
 use crate::error::{err, Result};
 use crate::load::FromRecord;

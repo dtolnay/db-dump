@@ -1,3 +1,5 @@
+//! <b style="font-variant:small-caps">version_downloads.csv</b>
+
 use crate::versions::VersionId;
 use chrono::NaiveDate;
 use serde::Deserialize;

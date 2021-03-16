@@ -1,3 +1,5 @@
+//! <b style="font-variant:small-caps">reserved_crate_names.csv</b>
+
 use serde::Deserialize;
 
 #[derive(Deserialize, Debug)]

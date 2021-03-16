@@ -1,3 +1,5 @@
+//! <b style="font-variant:small-caps">crates.csv</b>
+
 use chrono::NaiveDateTime;
 use serde::de::IgnoredAny;
 use serde::Deserialize;

@@ -1,3 +1,5 @@
+//! <b style="font-variant:small-caps">categories.csv</b>
+
 use chrono::NaiveDateTime;
 use serde::Deserialize;
 use std::borrow::Borrow;

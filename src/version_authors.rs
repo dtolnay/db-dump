@@ -1,3 +1,5 @@
+//! <b style="font-variant:small-caps">version_authors.csv</b>
+
 use crate::versions::VersionId;
 use serde::Deserialize;
 

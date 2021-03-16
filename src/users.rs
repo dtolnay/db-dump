@@ -1,3 +1,5 @@
+//! <b style="font-variant:small-caps">users.csv</b>
+
 use serde::Deserialize;
 use std::borrow::Borrow;
 use std::cmp::Ordering;

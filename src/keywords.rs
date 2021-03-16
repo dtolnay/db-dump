@@ -1,3 +1,5 @@
+//! <b style="font-variant:small-caps">keywords.csv</b>
+
 use chrono::NaiveDateTime;
 use serde::Deserialize;
 use std::borrow::Borrow;

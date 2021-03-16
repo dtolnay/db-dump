@@ -1,3 +1,5 @@
+//! <b style="font-variant:small-caps">crates_categories.csv</b>
+
 use crate::categories::CategoryId;
 use crate::crates::CrateId;
 use serde::Deserialize;

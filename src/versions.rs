@@ -1,3 +1,5 @@
+//! <b style="font-variant:small-caps">versions.csv</b>
+
 use crate::crates::CrateId;
 use crate::users::UserId;
 use chrono::NaiveDateTime;
