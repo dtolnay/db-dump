@@ -9,11 +9,17 @@ use fnv::FnvHashMap as Map;
 use once_cell::sync::OnceCell;
 
 impl DbDump {
+    /// Create a lazy index of those tables that have a unique ID column as
+    /// primary key.
+    ///
+    /// This call does no work up front. Each index is built lazily upon first
+    /// access through one of the `Index` struct's methods.
     pub fn index<'a>(&'a self) -> Index<'a> {
         Index::new(self)
     }
 }
 
+/// Lazy index of those tables that have a unique ID column as primary key.
 pub struct Index<'a> {
     db: &'a DbDump,
     categories: OnceCell<Map<CategoryId, u32>>,
@@ -25,6 +31,8 @@ pub struct Index<'a> {
 }
 
 impl<'a> Index<'a> {
+    /// This call does no work up front. Each index is built lazily upon first
+    /// access through one of the methods below.
     pub fn new(db: &'a DbDump) -> Self {
         Index {
             db,
