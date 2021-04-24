@@ -27,7 +27,7 @@ pub struct Row {
     pub kind: DependencyKind,
 }
 
-#[derive(Debug)]
+#[derive(Copy, Clone, Debug)]
 pub enum DependencyKind {
     /// kind=0
     Normal,
