@@ -31,7 +31,7 @@ use tar::Archive;
 ///         .version_downloads(|row| {
 ///             *downloads.entry(row.date).or_default() += row.downloads;
 ///         })
-///         .load("./dbdump.tar.gz")?;
+///         .load("./db-dump.tar.gz")?;
 ///
 ///     for (date, count) in downloads {
 ///         println!("{},{}", date, count);
