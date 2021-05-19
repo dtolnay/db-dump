@@ -54,7 +54,6 @@ pub struct Loader<'a> {
     reserved_crate_names: Option<Callback<'a, crate::reserved_crate_names::Row>>,
     teams: Option<Callback<'a, crate::teams::Row>>,
     users: Option<Callback<'a, crate::users::Row>>,
-    version_authors: Option<Callback<'a, crate::version_authors::Row>>,
     version_downloads: Option<Callback<'a, crate::version_downloads::Row>>,
     versions: Option<Callback<'a, crate::versions::Row>>,
 }
@@ -138,14 +137,6 @@ impl<'a> Loader<'a> {
         self
     }
 
-    pub fn version_authors(
-        &mut self,
-        f: impl FnMut(crate::version_authors::Row) + 'a,
-    ) -> &mut Self {
-        self.version_authors = Some(Callback::new(f));
-        self
-    }
-
     pub fn version_downloads(
         &mut self,
         f: impl FnMut(crate::version_downloads::Row) + 'a,
@@ -207,7 +198,6 @@ fn do_load(path: &Path, loader: &mut Loader) -> Result<()> {
             reserved_crate_names,
             teams,
             users,
-            version_authors,
             version_downloads,
             versions,
         } = loader;
@@ -224,7 +214,6 @@ fn do_load(path: &Path, loader: &mut Loader) -> Result<()> {
             && reserved_crate_names.as_ref().map_or(true, Callback::done)
             && teams.as_ref().map_or(true, Callback::done)
             && users.as_ref().map_or(true, Callback::done)
-            && version_authors.as_ref().map_or(true, Callback::done)
             && version_downloads.as_ref().map_or(true, Callback::done)
             && versions.as_ref().map_or(true, Callback::done)
         {
@@ -256,7 +245,6 @@ fn do_load(path: &Path, loader: &mut Loader) -> Result<()> {
             reserved_crate_names,
             teams,
             users,
-            version_authors,
             version_downloads,
             versions,
         } = loader;
@@ -285,8 +273,6 @@ fn do_load(path: &Path, loader: &mut Loader) -> Result<()> {
             read(teams, entry)?;
         } else if path.ends_with("users.csv") {
             read(users, entry)?;
-        } else if path.ends_with("version_authors.csv") {
-            read(version_authors, entry)?;
         } else if path.ends_with("version_downloads.csv") {
             read(version_downloads, entry)?;
         } else if path.ends_with("versions.csv") {
@@ -386,7 +372,6 @@ fn do_load_all(path: &Path) -> Result<DbDump> {
     let mut reserved_crate_names = Vec::new();
     let mut teams = Vec::new();
     let mut users = Vec::new();
-    let mut version_authors = Vec::new();
     let mut version_downloads = Vec::new();
     let mut versions = Vec::new();
 
@@ -403,7 +388,6 @@ fn do_load_all(path: &Path) -> Result<DbDump> {
         reserved_crate_names: Some(Callback::new(|row| reserved_crate_names.push(row))),
         teams: Some(Callback::new(|row| teams.push(row))),
         users: Some(Callback::new(|row| users.push(row))),
-        version_authors: Some(Callback::new(|row| version_authors.push(row))),
         version_downloads: Some(Callback::new(|row| version_downloads.push(row))),
         versions: Some(Callback::new(|row| versions.push(row))),
     };
@@ -424,7 +408,6 @@ fn do_load_all(path: &Path) -> Result<DbDump> {
         reserved_crate_names,
         teams,
         users,
-        version_authors,
         version_downloads,
         versions,
     })
