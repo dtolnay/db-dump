@@ -1,7 +1,6 @@
 //! <b style="font-variant:small-caps">crates.csv</b>
 
 use chrono::NaiveDateTime;
-use serde::de::IgnoredAny;
 use serde::Deserialize;
 use std::borrow::Borrow;
 use std::cmp::Ordering;
@@ -30,8 +29,6 @@ pub struct Row {
     pub homepage: Option<String>,
     pub documentation: Option<String>,
     pub readme: Option<String>,
-    #[allow(dead_code)]
-    textsearchable_index_col: IgnoredAny,
     pub repository: Option<String>,
     pub max_upload_size: Option<u64>,
 }
