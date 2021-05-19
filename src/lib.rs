@@ -90,7 +90,6 @@ pub struct DbDump {
     /// <td>homepage</td>
     /// <td>documentation</td>
     /// <td>readme</td>
-    /// <td>textsearchable_index_col</td>
     /// <td>repository</td>
     /// <td>max_upload_size</td>
     /// </tr></table>
