@@ -34,7 +34,6 @@ pub mod metadata;
 pub mod reserved_crate_names;
 pub mod teams;
 pub mod users;
-pub mod version_authors;
 pub mod version_downloads;
 pub mod versions;
 
@@ -164,14 +163,6 @@ pub struct DbDump {
     /// <td>gh_id</td>
     /// </tr></table>
     pub users: Vec<users::Row>,
-
-    /// <table style="width:initial"><tr>
-    /// <th>version_authors.csv</th>
-    /// <td>id</td>
-    /// <td>version_id</td>
-    /// <td>name</td>
-    /// </tr></table>
-    pub version_authors: Vec<version_authors::Row>,
 
     /// <table style="width:initial"><tr>
     /// <th>version_downloads.csv</th>
