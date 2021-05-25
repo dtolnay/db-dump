@@ -77,7 +77,6 @@ impl Borrow<VersionId> for Row {
 fn compat(string: &str) -> Option<Version> {
     let deprecated = match string {
         "0.0.1-001" => "0.0.1-1",
-        "0.3.0-alpha.00" => "0.3.0-alpha.0",
         "0.3.0-alpha.01" => "0.3.0-alpha.1",
         "0.4.0-alpha.00" => "0.4.0-alpha.0",
         "0.4.0-alpha.01" => "0.4.0-alpha.1",

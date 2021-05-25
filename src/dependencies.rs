@@ -77,7 +77,7 @@ fn compat(string: &str) -> Option<VersionReq> {
         "^0-.11.0" => "^0.11.0",
         "^0.1-alpha.0" => "^0.1.0-alpha.0",
         "^0.51-oldsyn" => "^0.51.1-oldsyn",
-        "~2.0-2.2" => ">=2.0, <=2.3",
+        "~2.0-2.2" => ">=2.0, <=2.2",
         _ => return None,
     };
     Some(deprecated.parse().unwrap())
