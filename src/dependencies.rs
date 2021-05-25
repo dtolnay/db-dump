@@ -16,6 +16,7 @@ pub struct Row {
     pub id: u32,
     pub version_id: VersionId,
     pub crate_id: CrateId,
+    #[serde(deserialize_with = "version_req")]
     pub req: VersionReq,
     #[serde(deserialize_with = "crate::bool::de")]
     pub optional: bool,
@@ -69,6 +70,53 @@ impl<'de> Deserialize<'de> for DependencyKind {
     {
         deserializer.deserialize_u8(DependencyKindVisitor)
     }
+}
+
+fn compat(string: &str) -> Option<VersionReq> {
+    let deprecated = match string {
+        "^0-.11.0" => "^0.11.0",
+        "^0.1-alpha.0" => "^0.1.0-alpha.0",
+        "^0.51-oldsyn" => "^0.51.1-oldsyn",
+        "~2.0-2.2" => ">=2.0, <=2.3",
+        _ => return None,
+    };
+    Some(deprecated.parse().unwrap())
+}
+
+struct VersionReqVisitor;
+
+impl<'de> Visitor<'de> for VersionReqVisitor {
+    type Value = VersionReq;
+
+    fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        formatter.write_str("semver version req")
+    }
+
+    fn visit_str<E>(self, string: &str) -> Result<Self::Value, E>
+    where
+        E: serde::de::Error,
+    {
+        match string.parse() {
+            Ok(version) => Ok(version),
+            Err(err) => {
+                if let Some(version) = compat(string) {
+                    Ok(version)
+                } else {
+                    Err(serde::de::Error::custom(format_args!(
+                        "{}: req {}",
+                        err, string,
+                    )))
+                }
+            }
+        }
+    }
+}
+
+fn version_req<'de, D>(deserializer: D) -> Result<VersionReq, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    deserializer.deserialize_str(VersionReqVisitor)
 }
 
 struct FeaturesSetVisitor;
