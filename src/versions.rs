@@ -26,6 +26,7 @@ pub struct Row {
     /// PRIMARY KEY
     pub id: VersionId,
     pub crate_id: CrateId,
+    #[serde(deserialize_with = "version")]
     pub num: Version,
     #[serde(deserialize_with = "crate::datetime::de")]
     pub updated_at: NaiveDateTime,
@@ -71,6 +72,54 @@ impl Borrow<VersionId> for Row {
     fn borrow(&self) -> &VersionId {
         &self.id
     }
+}
+
+fn compat(string: &str) -> Option<Version> {
+    let deprecated = match string {
+        "0.0.1-001" => "0.0.1-1",
+        "0.3.0-alpha.00" => "0.3.0-alpha.0",
+        "0.3.0-alpha.01" => "0.3.0-alpha.1",
+        "0.4.0-alpha.00" => "0.4.0-alpha.0",
+        "0.4.0-alpha.01" => "0.4.0-alpha.1",
+        _ => return None,
+    };
+    Some(deprecated.parse().unwrap())
+}
+
+struct VersionVisitor;
+
+impl<'de> Visitor<'de> for VersionVisitor {
+    type Value = Version;
+
+    fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        formatter.write_str("semver version")
+    }
+
+    fn visit_str<E>(self, string: &str) -> Result<Self::Value, E>
+    where
+        E: serde::de::Error,
+    {
+        match string.parse() {
+            Ok(version) => Ok(version),
+            Err(err) => {
+                if let Some(version) = compat(string) {
+                    Ok(version)
+                } else {
+                    Err(serde::de::Error::custom(format_args!(
+                        "{}: {}",
+                        err, string,
+                    )))
+                }
+            }
+        }
+    }
+}
+
+fn version<'de, D>(deserializer: D) -> Result<Version, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    deserializer.deserialize_str(VersionVisitor)
 }
 
 struct FeaturesMapVisitor;
