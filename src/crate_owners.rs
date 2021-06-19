@@ -9,7 +9,7 @@ use chrono::NaiveDateTime;
 use csv::StringRecord;
 use serde::Deserialize;
 
-#[derive(Copy, Clone, Debug)]
+#[derive(Copy, Clone, Ord, PartialOrd, Eq, PartialEq, Hash, Debug)]
 pub enum OwnerId {
     /// owner_kind=0
     User(UserId),
