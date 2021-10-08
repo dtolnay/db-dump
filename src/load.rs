@@ -226,8 +226,8 @@ fn do_load(path: &Path, loader: &mut Loader) -> Result<()> {
             continue;
         }
 
-        pb.set_message(&match path.file_name() {
-            Some(file_name) => file_name.to_string_lossy(),
+        pb.set_message(match path.file_name() {
+            Some(file_name) => Cow::Owned(file_name.to_string_lossy().into_owned()),
             None => Cow::Borrowed(""),
         });
 
