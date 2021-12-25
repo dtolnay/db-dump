@@ -75,13 +75,13 @@ fn main() -> db_dump::Result<()> {
 }
 ```
 
-<img alt="Crates.io downloads per day (log scale)" src="https://user-images.githubusercontent.com/1940490/111275478-6ac87000-85f3-11eb-85b7-c35ed5e1257a.png">
+<img alt="Crates.io downloads per day (log scale)" src="https://raw.githubusercontent.com/dtolnay/db-dump/master/chart/total-downloads.png">
 
 ---
 
 Here is a graph from the **user-downloads** example:
 
-<img alt="Fraction of crates.io downloads that are dtolnay's crates" src="https://user-images.githubusercontent.com/1940490/111275874-df9baa00-85f3-11eb-9c73-110f9943b0c9.png">
+<img alt="Fraction of crates.io downloads that are dtolnay's crates" src="https://raw.githubusercontent.com/dtolnay/db-dump/master/chart/user-downloads.png">
 
 <br>
 
