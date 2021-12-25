@@ -1,0 +1,59 @@
+\documentclass{standalone}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepackage{sansmath}
+\pgfplotsset{compat=1.16}
+\usetikzlibrary{pgfplots.dateplot}
+\definecolor{bg}{HTML}{CFCFCF}
+\definecolor{line}{HTML}{0A007B}
+\begin{document}
+\pagecolor{white}
+\begin{tikzpicture}
+\pgfplotstableread[col sep=comma, header=false]{total-downloads.csv}\totaldownloads
+\begin{axis}[
+  width=5in,
+  height=3.5in,
+  ymin=100,
+  ymax=500000000,
+  ymode=log,
+  log ticks with fixed point,
+  date coordinates in=x,
+  axis background/.style={fill=bg},
+  title=Crates.io downloads per day (log scale),
+  title style={at={(0.5,0.97)},font=\sffamily},
+  tick label style={font=\sansmath\sffamily\scriptsize},
+  xmin=2014-01-01,
+  xmax=2024-01-01,
+  xtick={2014-01-01,2015-01-01,2016-01-01,2017-01-01,2018-01-01,2019-01-01,2020-01-01,2021-01-01,2022-01-01,2023-01-01,2024-01-01},
+  xticklabel=\year,
+  ytick={99,1000,10000,100000,1000000,10000000,100000000,1000000000},
+  scaled y ticks=false,
+  grid=both,
+  no markers,
+  every axis plot/.append style={semithick},
+  smooth,
+]
+  \draw[dashed, red] (2014-01-01,20000) -- (2024-01-01,175000000);
+  \addplot[
+    line,
+    y filter/.code={
+      % 7 day moving average
+      \pgfkeys{/pgf/fpu,/pgf/fpu/output format=fixed}
+      \pgfmathsetmacro\sum{0}
+      \foreach \i in {0,...,6}{
+        \unless\ifnum\coordindex<\i
+          \pgfmathsetmacro\row{\coordindex-\i}
+          \pgfplotstablegetelem{\row}{[index]1}\of\totaldownloads
+          \pgfmathsetmacro\sum{\sum+\pgfplotsretval}
+          \xdef\sum{\sum}
+        \fi
+      }
+      \pgfmathparse{ln(\sum/min(\coordindex+1,7))}
+    },
+  ] table[x index=0] \totaldownloads;
+\end{axis}
+\pgfresetboundingbox\path
+  (current axis.south west) -- ++(-0.54in,-0.15in)
+  rectangle (current axis.north east) -- ++(0.13in,0.2in);
+\end{tikzpicture}
+\end{document}
