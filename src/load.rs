@@ -249,36 +249,42 @@ fn do_load(path: &Path, loader: &mut Loader) -> Result<()> {
             versions,
         } = loader;
 
-        if path.ends_with("badges.csv") {
-            read(badges, entry)?;
+        let (path, result) = if path.ends_with("badges.csv") {
+            ("badges", read(badges, entry))
         } else if path.ends_with("categories.csv") {
-            read(categories, entry)?;
+            ("categories", read(categories, entry))
         } else if path.ends_with("crate_owners.csv") {
-            read(crate_owners, entry)?;
+            ("crate_owners", read(crate_owners, entry))
         } else if path.ends_with("crates.csv") {
-            read(crates, entry)?;
+            ("crates", read(crates, entry))
         } else if path.ends_with("crates_categories.csv") {
-            read(crates_categories, entry)?;
+            ("crates_categories", read(crates_categories, entry))
         } else if path.ends_with("crates_keywords.csv") {
-            read(crates_keywords, entry)?;
+            ("crates_keywords", read(crates_keywords, entry))
         } else if path.ends_with("dependencies.csv") {
-            read(dependencies, entry)?;
+            ("dependencies", read(dependencies, entry))
         } else if path.ends_with("keywords.csv") {
-            read(keywords, entry)?;
+            ("keywords", read(keywords, entry))
         } else if path.ends_with("metadata.csv") {
-            read(metadata, entry)?;
+            ("metadata", read(metadata, entry))
         } else if path.ends_with("reserved_crate_names.csv") {
-            read(reserved_crate_names, entry)?;
+            ("reserved_crate_names", read(reserved_crate_names, entry))
         } else if path.ends_with("teams.csv") {
-            read(teams, entry)?;
+            ("teams", read(teams, entry))
         } else if path.ends_with("users.csv") {
-            read(users, entry)?;
+            ("users", read(users, entry))
         } else if path.ends_with("version_downloads.csv") {
-            read(version_downloads, entry)?;
+            ("version_downloads", read(version_downloads, entry))
         } else if path.ends_with("versions.csv") {
-            read(versions, entry)?;
+            ("versions", read(versions, entry))
         } else {
             eprintln!("unimplemented: {}", path.display());
+            continue;
+        };
+
+        if let Err(mut err) = result {
+            err.e.path = Some(Path::new(path));
+            return Err(err);
         }
     }
 
