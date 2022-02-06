@@ -141,14 +141,15 @@ fn de(record: &StringRecord, headers: &StringRecord) -> Result<Row> {
                 service: Option<String>,
                 id: Option<String>,
             }
-            let attributes: Attributes = serde_json::from_str(record.attributes).map_err(err)?;
-            BadgeType::Appveyor {
-                repository: attributes.repository,
-                project_name: attributes.project_name,
-                branch: attributes.branch,
-                service: attributes.service,
-                id: attributes.id,
-            }
+            serde_json::from_str(record.attributes)
+                .ok()
+                .map(|attributes: Attributes| BadgeType::Appveyor {
+                    repository: attributes.repository,
+                    project_name: attributes.project_name,
+                    branch: attributes.branch,
+                    service: attributes.service,
+                    id: attributes.id,
+                })
         }
 
         "azure-devops" => {
@@ -159,12 +160,13 @@ fn de(record: &StringRecord, headers: &StringRecord) -> Result<Row> {
                 pipeline: String,
                 build: Option<String>,
             }
-            let attributes: Attributes = serde_json::from_str(record.attributes).map_err(err)?;
-            BadgeType::AzureDevops {
-                project: attributes.project,
-                pipeline: attributes.pipeline,
-                build: attributes.build,
-            }
+            serde_json::from_str(record.attributes)
+                .ok()
+                .map(|attributes: Attributes| BadgeType::AzureDevops {
+                    project: attributes.project,
+                    pipeline: attributes.pipeline,
+                    build: attributes.build,
+                })
         }
 
         "bitbucket-pipelines" => {
@@ -174,11 +176,12 @@ fn de(record: &StringRecord, headers: &StringRecord) -> Result<Row> {
                 repository: String,
                 branch: String,
             }
-            let attributes: Attributes = serde_json::from_str(record.attributes).map_err(err)?;
-            BadgeType::BitbucketPipelines {
-                repository: attributes.repository,
-                branch: attributes.branch,
-            }
+            serde_json::from_str(record.attributes)
+                .ok()
+                .map(|attributes: Attributes| BadgeType::BitbucketPipelines {
+                    repository: attributes.repository,
+                    branch: attributes.branch,
+                })
         }
 
         "circle-ci" => {
@@ -188,11 +191,12 @@ fn de(record: &StringRecord, headers: &StringRecord) -> Result<Row> {
                 repository: String,
                 branch: Option<String>,
             }
-            let attributes: Attributes = serde_json::from_str(record.attributes).map_err(err)?;
-            BadgeType::CircleCi {
-                repository: attributes.repository,
-                branch: attributes.branch,
-            }
+            serde_json::from_str(record.attributes)
+                .ok()
+                .map(|attributes: Attributes| BadgeType::CircleCi {
+                    repository: attributes.repository,
+                    branch: attributes.branch,
+                })
         }
 
         "cirrus-ci" => {
@@ -202,11 +206,12 @@ fn de(record: &StringRecord, headers: &StringRecord) -> Result<Row> {
                 repository: String,
                 branch: Option<String>,
             }
-            let attributes: Attributes = serde_json::from_str(record.attributes).map_err(err)?;
-            BadgeType::CirrusCi {
-                repository: attributes.repository,
-                branch: attributes.branch,
-            }
+            serde_json::from_str(record.attributes)
+                .ok()
+                .map(|attributes: Attributes| BadgeType::CirrusCi {
+                    repository: attributes.repository,
+                    branch: attributes.branch,
+                })
         }
 
         "codecov" => {
@@ -217,12 +222,13 @@ fn de(record: &StringRecord, headers: &StringRecord) -> Result<Row> {
                 branch: Option<String>,
                 service: Option<String>,
             }
-            let attributes: Attributes = serde_json::from_str(record.attributes).map_err(err)?;
-            BadgeType::Codecov {
-                repository: attributes.repository,
-                branch: attributes.branch,
-                service: attributes.service,
-            }
+            serde_json::from_str(record.attributes)
+                .ok()
+                .map(|attributes: Attributes| BadgeType::Codecov {
+                    repository: attributes.repository,
+                    branch: attributes.branch,
+                    service: attributes.service,
+                })
         }
 
         "coveralls" => {
@@ -233,12 +239,13 @@ fn de(record: &StringRecord, headers: &StringRecord) -> Result<Row> {
                 branch: Option<String>,
                 service: Option<String>,
             }
-            let attributes: Attributes = serde_json::from_str(record.attributes).map_err(err)?;
-            BadgeType::Coveralls {
-                repository: attributes.repository,
-                branch: attributes.branch,
-                service: attributes.service,
-            }
+            serde_json::from_str(record.attributes)
+                .ok()
+                .map(|attributes: Attributes| BadgeType::Coveralls {
+                    repository: attributes.repository,
+                    branch: attributes.branch,
+                    service: attributes.service,
+                })
         }
 
         "gitlab" => {
@@ -249,12 +256,13 @@ fn de(record: &StringRecord, headers: &StringRecord) -> Result<Row> {
                 branch: Option<String>,
                 tag: Option<String>,
             }
-            let attributes: Attributes = serde_json::from_str(record.attributes).map_err(err)?;
-            BadgeType::Gitlab {
-                repository: attributes.repository,
-                branch: attributes.branch,
-                tag: attributes.tag,
-            }
+            serde_json::from_str(record.attributes)
+                .ok()
+                .map(|attributes: Attributes| BadgeType::Gitlab {
+                    repository: attributes.repository,
+                    branch: attributes.branch,
+                    tag: attributes.tag,
+                })
         }
 
         "is-it-maintained-issue-resolution" => {
@@ -264,11 +272,14 @@ fn de(record: &StringRecord, headers: &StringRecord) -> Result<Row> {
                 repository: String,
                 service: Option<String>,
             }
-            let attributes: Attributes = serde_json::from_str(record.attributes).map_err(err)?;
-            BadgeType::IsItMaintainedIssueResolution {
-                repository: attributes.repository,
-                service: attributes.service,
-            }
+            serde_json::from_str(record.attributes)
+                .ok()
+                .map(
+                    |attributes: Attributes| BadgeType::IsItMaintainedIssueResolution {
+                        repository: attributes.repository,
+                        service: attributes.service,
+                    },
+                )
         }
 
         "is-it-maintained-open-issues" => {
@@ -278,11 +289,14 @@ fn de(record: &StringRecord, headers: &StringRecord) -> Result<Row> {
                 repository: String,
                 service: Option<String>,
             }
-            let attributes: Attributes = serde_json::from_str(record.attributes).map_err(err)?;
-            BadgeType::IsItMaintainedOpenIssues {
-                repository: attributes.repository,
-                service: attributes.service,
-            }
+            serde_json::from_str(record.attributes)
+                .ok()
+                .map(
+                    |attributes: Attributes| BadgeType::IsItMaintainedOpenIssues {
+                        repository: attributes.repository,
+                        service: attributes.service,
+                    },
+                )
         }
 
         "maintenance" => {
@@ -291,10 +305,11 @@ fn de(record: &StringRecord, headers: &StringRecord) -> Result<Row> {
             struct Attributes {
                 status: MaintenanceStatus,
             }
-            let attributes: Attributes = serde_json::from_str(record.attributes).map_err(err)?;
-            BadgeType::Maintenance {
-                status: attributes.status,
-            }
+            serde_json::from_str(record.attributes)
+                .ok()
+                .map(|attributes: Attributes| BadgeType::Maintenance {
+                    status: attributes.status,
+                })
         }
 
         "travis-ci" => {
@@ -307,20 +322,27 @@ fn de(record: &StringRecord, headers: &StringRecord) -> Result<Row> {
                 master: Option<String>,
                 tld: Option<String>,
             }
-            let attributes: Attributes = serde_json::from_str(record.attributes).map_err(err)?;
-            BadgeType::TravisCi {
-                repository: attributes.repository,
-                branch: attributes.branch,
-                service: attributes.service,
-                master: attributes.master,
-                tld: attributes.tld,
-            }
+            serde_json::from_str(record.attributes)
+                .ok()
+                .map(|attributes: Attributes| BadgeType::TravisCi {
+                    repository: attributes.repository,
+                    branch: attributes.branch,
+                    service: attributes.service,
+                    master: attributes.master,
+                    tld: attributes.tld,
+                })
         }
 
-        other => BadgeType::Other {
-            badge_type: other.to_owned(),
+        _other => None,
+    };
+
+    let badge_type = if let Some(badge_type) = badge_type {
+        badge_type
+    } else {
+        BadgeType::Other {
+            badge_type: record.badge_type.to_owned(),
             attributes: serde_json::from_str(record.attributes).map_err(err)?,
-        },
+        }
     };
 
     Ok(Row {
