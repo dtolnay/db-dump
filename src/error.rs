@@ -4,7 +4,7 @@ use std::io;
 /// Error type returned by `db_dump::load_all` and `Loader::load` in the event
 /// that loading crates.io's DB dump from the specified file fails.
 pub struct Error {
-    e: ErrorImpl,
+    e: Box<ErrorImpl>,
 }
 
 /// Result type returned by `db_dump::load_all` and `Loader::load`.
@@ -25,7 +25,7 @@ impl std::error::Error for Error {
 
 impl Display for Error {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        match &self.e {
+        match &*self.e {
             ErrorImpl::Msg(e) => f.write_str(e),
             ErrorImpl::Io(e) => Display::fmt(e, f),
             ErrorImpl::Csv(e) => Display::fmt(e, f),
@@ -41,7 +41,9 @@ impl Debug for Error {
 }
 
 pub(crate) fn err(variant: impl Into<ErrorImpl>) -> Error {
-    Error { e: variant.into() }
+    Error {
+        e: Box::new(variant.into()),
+    }
 }
 
 impl<'a> From<fmt::Arguments<'a>> for ErrorImpl {
@@ -59,7 +61,7 @@ impl From<csv::Error> for ErrorImpl {
 impl From<io::Error> for Error {
     fn from(e: io::Error) -> Self {
         Error {
-            e: ErrorImpl::Io(e),
+            e: Box::new(ErrorImpl::Io(e)),
         }
     }
 }
