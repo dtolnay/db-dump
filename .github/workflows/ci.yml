@@ -13,7 +13,7 @@ jobs:
     name: Load
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@nightly
       - name: wget https://static.crates.io/db-dump.tar.gz
         run: wget --quiet --user-agent=github.com/dtolnay/db-dump https://static.crates.io/db-dump.tar.gz
@@ -27,7 +27,7 @@ jobs:
       matrix:
         rust: [nightly, beta, stable, 1.49.0]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{matrix.rust}}
@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name != 'pull_request'
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@clippy
       - run: cargo clippy -- -Dclippy::all -Dclippy::pedantic
 
@@ -47,6 +47,6 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name != 'pull_request'
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: dtolnay/install@cargo-outdated
       - run: cargo outdated --exit-code 1
