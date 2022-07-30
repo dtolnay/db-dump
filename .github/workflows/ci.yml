@@ -18,6 +18,8 @@ jobs:
       - name: wget https://static.crates.io/db-dump.tar.gz
         run: wget --quiet --user-agent=github.com/dtolnay/db-dump https://static.crates.io/db-dump.tar.gz
       - run: cargo run --release --example load-all
+        env:
+          RUSTFLAGS: --cfg db_dump_panic_on_unrecognized_csv ${{env.RUSTFLAGS}}
 
   build:
     name: Rust ${{matrix.rust}}

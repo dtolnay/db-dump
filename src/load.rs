@@ -279,7 +279,11 @@ fn do_load(path: &Path, loader: &mut Loader) -> Result<()> {
         } else if path.ends_with("versions.csv") {
             ("versions", read(versions, entry))
         } else {
-            eprintln!("unimplemented: {}", path.display());
+            if cfg!(db_dump_panic_on_unrecognized_csv) {
+                panic!("unimplemented: {}", path.display());
+            } else {
+                eprintln!("unimplemented: {}", path.display());
+            }
             continue;
         };
 
