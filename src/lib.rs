@@ -10,6 +10,7 @@
     clippy::needless_lifetimes,
     clippy::never_loop,
     clippy::too_many_lines,
+    clippy::unreadable_literal,
     clippy::unseparated_literal_suffix
 )]
 
