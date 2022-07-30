@@ -177,6 +177,7 @@ fn do_load(path: &Path, loader: &mut Loader) -> Result<()> {
     pb.set_style(
         ProgressStyle::default_bar()
             .template("[{wide_bar:.cyan/blue}] {percent}% {msg:>24}")
+            .unwrap()
             .progress_chars(". "),
     );
     pb.set_draw_target(ProgressDrawTarget::stderr());
