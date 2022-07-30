@@ -34,6 +34,8 @@ jobs:
         with:
           toolchain: ${{matrix.rust}}
       - run: cargo check --examples ${{matrix.rust != '1.53.0' && '--workspace' || ''}}
+      - run: cargo test --lib
+      - run: cargo test --doc
 
   clippy:
     name: Clippy
