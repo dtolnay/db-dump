@@ -2,12 +2,12 @@
 name = "db-dump"
 version = "0.3.5" # remember to update html_root_url
 authors = ["David Tolnay <dtolnay@gmail.com>"]
+description = "Library for scripting analyses against crates.io's database dumps"
+documentation = "https://docs.rs/db-dump"
 edition = "2018"
 license = "MIT OR Apache-2.0"
-description = "Library for scripting analyses against crates.io's database dumps"
-repository = "https://github.com/dtolnay/db-dump"
-documentation = "https://docs.rs/db-dump"
 readme = "README.md"
+repository = "https://github.com/dtolnay/db-dump"
 
 [dependencies]
 chrono = "0.4"

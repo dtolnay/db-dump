@@ -2,9 +2,9 @@
 name = "db-dump-concat"
 version = "0.1.0"
 authors = ["David Tolnay <dtolnay@gmail.com>"]
+description = "Tool to concatenate crates.io database dumps"
 edition = "2018"
 license = "MIT OR Apache-2.0"
-description = "Tool to concatenate crates.io database dumps"
 repository = "https://github.com/dtolnay/db-dump"
 
 [[bin]]
