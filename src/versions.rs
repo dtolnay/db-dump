@@ -4,7 +4,7 @@ use crate::crates::CrateId;
 use crate::users::UserId;
 use chrono::NaiveDateTime;
 use semver::Version;
-use serde::de::Visitor;
+use serde::de::{Unexpected, Visitor};
 use serde::{Deserialize, Deserializer};
 use std::borrow::Borrow;
 use std::cmp::Ordering;
@@ -40,6 +40,8 @@ pub struct Row {
     pub license: String,
     pub crate_size: Option<u64>,
     pub published_by: Option<UserId>,
+    #[serde(deserialize_with = "checksum", default)]
+    pub checksum: Option<[u8; 32]>,
 }
 
 impl Ord for Row {
@@ -143,4 +145,41 @@ where
     D: Deserializer<'de>,
 {
     deserializer.deserialize_str(FeaturesMapVisitor)
+}
+
+struct ChecksumVisitor;
+
+impl<'de> Visitor<'de> for ChecksumVisitor {
+    type Value = Option<[u8; 32]>;
+
+    fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        formatter.write_str("checksum as 64-character hex string")
+    }
+
+    fn visit_str<E>(self, string: &str) -> Result<Self::Value, E>
+    where
+        E: serde::de::Error,
+    {
+        match string.len() {
+            0 => Ok(None),
+            64 => {
+                let mut checksum = [0u8; 32];
+                for i in 0..32 {
+                    match u8::from_str_radix(&string[i * 2..][..2], 16) {
+                        Ok(byte) => checksum[i] = byte,
+                        Err(_) => return Err(E::invalid_value(Unexpected::Str(string), &self)),
+                    }
+                }
+                Ok(Some(checksum))
+            }
+            _ => Err(E::invalid_value(Unexpected::Str(string), &self)),
+        }
+    }
+}
+
+fn checksum<'de, D>(deserializer: D) -> Result<Option<[u8; 32]>, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    deserializer.deserialize_str(ChecksumVisitor)
 }
