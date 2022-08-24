@@ -42,6 +42,8 @@ pub struct Row {
     pub published_by: Option<UserId>,
     #[serde(deserialize_with = "checksum", default)]
     pub checksum: Option<[u8; 32]>,
+    #[serde(default)]
+    pub links: Option<String>,
 }
 
 impl Ord for Row {
