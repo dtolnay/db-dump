@@ -26,6 +26,8 @@ pub struct Row {
     pub features: Vec<String>,
     pub target: String,
     pub kind: DependencyKind,
+    #[serde(default)]
+    pub explicit_name: Option<String>,
 }
 
 #[derive(Copy, Clone, Debug)]
