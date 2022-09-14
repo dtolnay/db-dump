@@ -8,7 +8,6 @@ documentation = "https://docs.rs/db-dump"
 edition = "2018"
 keywords = ["crates-io"]
 license = "MIT OR Apache-2.0"
-readme = "README.md"
 repository = "https://github.com/dtolnay/db-dump"
 
 [dependencies]
