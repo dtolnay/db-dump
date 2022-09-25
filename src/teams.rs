@@ -1,6 +1,6 @@
 //! <b style="font-variant:small-caps">teams.csv</b>
 
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 use std::borrow::Borrow;
 use std::cmp::Ordering;
 use std::hash::{Hash, Hasher};

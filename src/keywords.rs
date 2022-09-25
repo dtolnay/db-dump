@@ -1,7 +1,7 @@
 //! <b style="font-variant:small-caps">keywords.csv</b>
 
 use chrono::NaiveDateTime;
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 use std::borrow::Borrow;
 use std::cmp::Ordering;
 use std::hash::{Hash, Hasher};

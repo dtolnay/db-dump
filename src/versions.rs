@@ -5,7 +5,7 @@ use crate::users::UserId;
 use chrono::NaiveDateTime;
 use semver::Version;
 use serde::de::{Unexpected, Visitor};
-use serde::{Serialize, Deserialize, Deserializer};
+use serde::{Deserialize, Deserializer, Serialize};
 use std::borrow::Borrow;
 use std::cmp::Ordering;
 use std::collections::BTreeMap as Map;
