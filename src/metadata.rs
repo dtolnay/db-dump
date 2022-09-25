@@ -1,6 +1,6 @@
 //! <b style="font-variant:small-caps">metadata.csv</b>
 
-use serde::Deserialize;
+use serde_derive::Deserialize;
 
 /// One row of **metadata.csv**.
 #[derive(Deserialize, Clone, Default, Debug)]

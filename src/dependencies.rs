@@ -3,8 +3,8 @@
 use crate::crates::CrateId;
 use crate::versions::VersionId;
 use semver::VersionReq;
-use serde::de::{Unexpected, Visitor};
-use serde::{Deserialize, Deserializer};
+use serde::de::{Deserialize, Deserializer, Unexpected, Visitor};
+use serde_derive::Deserialize;
 use std::fmt;
 
 /// One row of **dependencies.csv**.

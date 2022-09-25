@@ -2,7 +2,7 @@
 
 use crate::categories::CategoryId;
 use crate::crates::CrateId;
-use serde::Deserialize;
+use serde_derive::Deserialize;
 
 /// One row of **crates_categories.csv**.
 #[derive(Deserialize, Clone, Debug)]

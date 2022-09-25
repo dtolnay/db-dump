@@ -1,6 +1,6 @@
 //! <b style="font-variant:small-caps">reserved_crate_names.csv</b>
 
-use serde::Deserialize;
+use serde_derive::Deserialize;
 
 /// One row of **reserved_crate_names.csv**.
 #[derive(Deserialize, Clone, Debug)]

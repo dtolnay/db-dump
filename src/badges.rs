@@ -4,7 +4,7 @@ use crate::crates::CrateId;
 use crate::error::{err, Result};
 use crate::load::FromRecord;
 use csv::StringRecord;
-use serde::Deserialize;
+use serde_derive::Deserialize;
 use std::collections::BTreeMap as Map;
 
 /// One row of **badges.csv**.
