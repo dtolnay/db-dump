@@ -19,7 +19,7 @@ use std::hash::{Hash, Hasher};
 pub struct VersionId(pub u32);
 
 /// One row of **versions.csv**.
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Clone, Debug)]
 #[serde(deny_unknown_fields)]
 #[non_exhaustive]
 pub struct Row {
