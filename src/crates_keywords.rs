@@ -5,7 +5,7 @@ use crate::keywords::KeywordId;
 use serde::Deserialize;
 
 /// One row of **crates_keywords.csv**.
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Clone, Debug)]
 #[serde(deny_unknown_fields)]
 #[non_exhaustive]
 pub struct Row {

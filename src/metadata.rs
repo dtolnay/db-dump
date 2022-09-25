@@ -3,7 +3,7 @@
 use serde::Deserialize;
 
 /// One row of **metadata.csv**.
-#[derive(Deserialize, Default, Debug)]
+#[derive(Deserialize, Clone, Default, Debug)]
 #[serde(deny_unknown_fields)]
 #[non_exhaustive]
 pub struct Row {

@@ -8,14 +8,14 @@ use serde::Deserialize;
 use std::collections::BTreeMap as Map;
 
 /// One row of **badges.csv**.
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 #[non_exhaustive]
 pub struct Row {
     pub crate_id: CrateId,
     pub badge_type: BadgeType,
 }
 
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 #[non_exhaustive]
 pub enum BadgeType {
     #[non_exhaustive]
@@ -100,7 +100,7 @@ pub enum BadgeType {
     },
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Clone, Debug)]
 #[serde(rename_all = "kebab-case")]
 pub enum MaintenanceStatus {
     ActivelyDeveloped,

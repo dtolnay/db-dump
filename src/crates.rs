@@ -13,7 +13,7 @@ use std::hash::{Hash, Hasher};
 pub struct CrateId(pub u32);
 
 /// One row of **crates.csv**.
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Clone, Debug)]
 #[serde(deny_unknown_fields)]
 #[non_exhaustive]
 pub struct Row {
