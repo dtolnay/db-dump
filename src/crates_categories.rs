@@ -5,7 +5,7 @@ use crate::crates::CrateId;
 use serde::Deserialize;
 
 /// One row of **crates_categories.csv**.
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Debug, Clone)]
 #[serde(deny_unknown_fields)]
 #[non_exhaustive]
 pub struct Row {

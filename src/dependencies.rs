@@ -8,7 +8,7 @@ use serde::{Deserialize, Deserializer};
 use std::fmt;
 
 /// One row of **dependencies.csv**.
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Debug, Clone)]
 #[serde(deny_unknown_fields)]
 #[non_exhaustive]
 pub struct Row {

@@ -13,7 +13,7 @@ use std::hash::{Hash, Hasher};
 pub struct KeywordId(pub u32);
 
 /// One row of **keywords.csv**.
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Debug, Clone)]
 #[serde(deny_unknown_fields)]
 #[non_exhaustive]
 pub struct Row {

@@ -12,7 +12,7 @@ use std::hash::{Hash, Hasher};
 pub struct UserId(pub u32);
 
 /// One row of **users.csv**.
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Debug, Clone)]
 #[serde(deny_unknown_fields)]
 #[non_exhaustive]
 pub struct Row {

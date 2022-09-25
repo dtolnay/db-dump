@@ -18,7 +18,7 @@ pub enum OwnerId {
 }
 
 /// One row of **crate_owners.csv**.
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 #[non_exhaustive]
 pub struct Row {
     pub crate_id: CrateId,
