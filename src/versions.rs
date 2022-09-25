@@ -5,7 +5,7 @@ use crate::users::UserId;
 use chrono::NaiveDateTime;
 use semver::Version;
 use serde::de::{Unexpected, Visitor};
-use serde::{Deserialize, Deserializer};
+use serde::{Serialize, Deserialize, Deserializer};
 use std::borrow::Borrow;
 use std::cmp::Ordering;
 use std::collections::BTreeMap as Map;
@@ -13,7 +13,7 @@ use std::fmt;
 use std::hash::{Hash, Hasher};
 
 /// Primary key of **versions.csv**.
-#[derive(Deserialize, Copy, Clone, Ord, PartialOrd, Eq, PartialEq, Hash, Debug)]
+#[derive(Serialize, Deserialize, Copy, Clone, Ord, PartialOrd, Eq, PartialEq, Hash, Debug)]
 #[serde(transparent)]
 #[repr(transparent)]
 pub struct VersionId(pub u32);
