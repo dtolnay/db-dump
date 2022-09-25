@@ -2,7 +2,7 @@
 
 use crate::versions::VersionId;
 use chrono::NaiveDate;
-use serde::Deserialize;
+use serde_derive::Deserialize;
 
 /// One row of **version_downloads.csv**.
 #[derive(Deserialize, Clone, Debug)]

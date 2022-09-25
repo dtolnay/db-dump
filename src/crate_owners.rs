@@ -7,7 +7,7 @@ use crate::teams::TeamId;
 use crate::users::UserId;
 use chrono::NaiveDateTime;
 use csv::StringRecord;
-use serde::Deserialize;
+use serde_derive::Deserialize;
 
 #[derive(Copy, Clone, Ord, PartialOrd, Eq, PartialEq, Hash, Debug)]
 pub enum OwnerId {

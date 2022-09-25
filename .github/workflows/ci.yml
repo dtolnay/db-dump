@@ -37,6 +37,7 @@ jobs:
         with:
           toolchain: ${{matrix.rust}}
       - run: cargo check --examples --workspace
+      - run: cargo check --examples --workspace --features serde/derive
       - run: cargo test --lib
       - run: cargo test --doc
 
