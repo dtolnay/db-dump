@@ -30,14 +30,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        rust: [nightly, beta, stable, 1.56.1]
+        rust: [nightly, beta, stable, 1.57.0]
     steps:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{matrix.rust}}
-      - run: cargo check --examples --workspace
-      - run: cargo check --examples --workspace --features serde/derive
+      - run: cargo check --workspace
+      - run: cargo check --examples
+      - run: cargo check --features serde/derive
       - run: cargo test --lib
       - run: cargo test --doc
 
