@@ -1,12 +1,12 @@
 //! <b style="font-variant:small-caps">users.csv</b>
 
-use serde::Deserialize;
+use serde::{Serialize, Deserialize};
 use std::borrow::Borrow;
 use std::cmp::Ordering;
 use std::hash::{Hash, Hasher};
 
 /// Primary key of **users.csv**.
-#[derive(Deserialize, Copy, Clone, Ord, PartialOrd, Eq, PartialEq, Hash, Debug)]
+#[derive(Serialize, Deserialize, Copy, Clone, Ord, PartialOrd, Eq, PartialEq, Hash, Debug)]
 #[serde(transparent)]
 #[repr(transparent)]
 pub struct UserId(pub u32);

@@ -1,13 +1,13 @@
 //! <b style="font-variant:small-caps">crates.csv</b>
 
 use chrono::NaiveDateTime;
-use serde::Deserialize;
+use serde::{Serialize, Deserialize};
 use std::borrow::Borrow;
 use std::cmp::Ordering;
 use std::hash::{Hash, Hasher};
 
 /// Primary key of **crates.csv**.
-#[derive(Deserialize, Copy, Clone, Ord, PartialOrd, Eq, PartialEq, Hash, Debug)]
+#[derive(Serialize, Deserialize, Copy, Clone, Ord, PartialOrd, Eq, PartialEq, Hash, Debug)]
 #[serde(transparent)]
 #[repr(transparent)]
 pub struct CrateId(pub u32);
