@@ -45,12 +45,12 @@ use std::str;
 use tar::Archive;
 
 #[derive(Parser, Debug)]
-#[clap(name = "db-dump-concat", author, version)]
+#[command(name = "db-dump-concat", author, version)]
 struct Opt {
-    #[clap(short, long, action)]
+    #[arg(short, long)]
     out: Option<PathBuf>,
 
-    #[clap(required = true, action)]
+    #[arg(required = true)]
     dumps: Vec<PathBuf>,
 }
 
