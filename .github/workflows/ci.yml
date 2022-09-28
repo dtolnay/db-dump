@@ -30,7 +30,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        rust: [nightly, beta, stable, 1.57.0]
+        rust: [nightly, beta, stable, 1.60.0]
     steps:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@master
@@ -41,6 +41,14 @@ jobs:
       - run: cargo check --features serde/derive
       - run: cargo test --lib
       - run: cargo test --doc
+
+  msrv:
+    name: Rust 1.57.0
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dtolnay/rust-toolchain@1.57.0
+      - run: cargo check
 
   clippy:
     name: Clippy
