@@ -21,7 +21,8 @@
     clippy::let_underscore_drop,
     clippy::never_loop,
     clippy::too_many_lines,
-    clippy::trivially_copy_pass_by_ref
+    clippy::trivially_copy_pass_by_ref,
+    clippy::uninlined_format_args
 )]
 
 use anyhow::{bail, format_err, Result};
