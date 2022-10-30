@@ -96,7 +96,7 @@ where
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use chrono::{NaiveDate, NaiveDateTime, NaiveTime};
     use serde::de::value::Error;
     use serde::de::IntoDeserializer;
 
@@ -105,7 +105,7 @@ mod tests {
         let csv = "2020-01-01 12:11:10.999999";
         let deserializer = IntoDeserializer::<Error>::into_deserializer;
         assert_eq!(
-            self::de(deserializer(csv)).unwrap(),
+            super::de(deserializer(csv)).unwrap(),
             NaiveDateTime::new(
                 NaiveDate::from_ymd(2020, 1, 1),
                 NaiveTime::from_hms_micro(12, 11, 10, 999999)
@@ -114,7 +114,7 @@ mod tests {
 
         let csv = "2020-01-01 12:11:10.99";
         assert_eq!(
-            self::de(deserializer(csv)).unwrap(),
+            super::de(deserializer(csv)).unwrap(),
             NaiveDateTime::new(
                 NaiveDate::from_ymd(2020, 1, 1),
                 NaiveTime::from_hms_micro(12, 11, 10, 990000)
@@ -123,7 +123,7 @@ mod tests {
 
         let csv = "2020-01-01 12:11:10";
         assert_eq!(
-            self::de(deserializer(csv)).unwrap(),
+            super::de(deserializer(csv)).unwrap(),
             NaiveDateTime::new(
                 NaiveDate::from_ymd(2020, 1, 1),
                 NaiveTime::from_hms_micro(12, 11, 10, 0)

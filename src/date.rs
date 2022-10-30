@@ -58,7 +58,7 @@ where
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use chrono::NaiveDate;
     use serde::de::value::Error;
     use serde::de::IntoDeserializer;
 
@@ -67,7 +67,7 @@ mod tests {
         let csv = "2020-01-01";
         let deserializer = IntoDeserializer::<Error>::into_deserializer;
         assert_eq!(
-            self::de(deserializer(csv)).unwrap(),
+            super::de(deserializer(csv)).unwrap(),
             NaiveDate::from_ymd(2020, 1, 1),
         );
     }
