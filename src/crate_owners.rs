@@ -5,7 +5,7 @@ use crate::error::{err, Result};
 use crate::load::FromRecord;
 use crate::teams::TeamId;
 use crate::users::UserId;
-use chrono::NaiveDateTime;
+use chrono::{DateTime, Utc};
 use csv::StringRecord;
 use serde_derive::Deserialize;
 
@@ -23,7 +23,7 @@ pub enum OwnerId {
 pub struct Row {
     pub crate_id: CrateId,
     pub owner_id: OwnerId,
-    pub created_at: NaiveDateTime,
+    pub created_at: DateTime<Utc>,
     pub created_by: Option<UserId>,
 }
 
@@ -39,7 +39,7 @@ fn de(record: &StringRecord, headers: &StringRecord) -> Result<Row> {
     struct Record {
         crate_id: CrateId,
         #[serde(deserialize_with = "crate::datetime::de")]
-        created_at: NaiveDateTime,
+        created_at: DateTime<Utc>,
         created_by: Option<UserId>,
         owner_id: u32,
         owner_kind: u8,

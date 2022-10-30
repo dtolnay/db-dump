@@ -2,7 +2,7 @@
 
 use crate::crates::CrateId;
 use crate::users::UserId;
-use chrono::NaiveDateTime;
+use chrono::{DateTime, Utc};
 use semver::Version;
 use serde::de::{Deserializer, Unexpected, Visitor};
 use serde_derive::{Deserialize, Serialize};
@@ -29,9 +29,9 @@ pub struct Row {
     #[serde(deserialize_with = "version")]
     pub num: Version,
     #[serde(deserialize_with = "crate::datetime::de")]
-    pub updated_at: NaiveDateTime,
+    pub updated_at: DateTime<Utc>,
     #[serde(deserialize_with = "crate::datetime::de")]
-    pub created_at: NaiveDateTime,
+    pub created_at: DateTime<Utc>,
     pub downloads: u64,
     #[serde(deserialize_with = "features_map")]
     pub features: Map<String, Vec<String>>,

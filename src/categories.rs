@@ -1,6 +1,6 @@
 //! <b style="font-variant:small-caps">categories.csv</b>
 
-use chrono::NaiveDateTime;
+use chrono::{DateTime, Utc};
 use serde_derive::{Deserialize, Serialize};
 use std::borrow::Borrow;
 use std::cmp::Ordering;
@@ -26,7 +26,7 @@ pub struct Row {
     pub description: String,
     pub crates_cnt: u32,
     #[serde(deserialize_with = "crate::datetime::de")]
-    pub created_at: NaiveDateTime,
+    pub created_at: DateTime<Utc>,
     pub path: String,
 }
 
