@@ -1,11 +1,13 @@
-use chrono::{NaiveDate, NaiveDateTime, NaiveTime};
+use chrono::{DateTime, NaiveDate, NaiveDateTime, NaiveTime, TimeZone, Utc};
 use serde::de::{Deserializer, Unexpected, Visitor};
 use std::fmt;
 
-struct NaiveDateTimeVisitor;
+// The timestamps in the db dump CSV do not mention a time zone, but in reality
+// they refer to UTC.
+struct CratesioTimeVisitor;
 
-impl<'de> Visitor<'de> for NaiveDateTimeVisitor {
-    type Value = NaiveDateTime;
+impl<'de> Visitor<'de> for CratesioTimeVisitor {
+    type Value = DateTime<Utc>;
 
     fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         formatter.write_str("datetime in format 'YYYY-MM-DD HH:MM:SS.SSSSSS'")
@@ -78,7 +80,8 @@ impl<'de> Visitor<'de> for NaiveDateTimeVisitor {
                     Some(naive_time) => naive_time,
                     None => break,
                 };
-            return Ok(NaiveDateTime::new(naive_date, naive_time));
+            let naive_date_time = NaiveDateTime::new(naive_date, naive_time);
+            return Ok(Utc.from_utc_datetime(&naive_date_time));
         }
         Err(serde::de::Error::invalid_value(
             Unexpected::Str(string),
@@ -87,16 +90,16 @@ impl<'de> Visitor<'de> for NaiveDateTimeVisitor {
     }
 }
 
-pub(crate) fn de<'de, D>(deserializer: D) -> Result<NaiveDateTime, D::Error>
+pub(crate) fn de<'de, D>(deserializer: D) -> Result<DateTime<Utc>, D::Error>
 where
     D: Deserializer<'de>,
 {
-    deserializer.deserialize_str(NaiveDateTimeVisitor)
+    deserializer.deserialize_str(CratesioTimeVisitor)
 }
 
 #[cfg(test)]
 mod tests {
-    use chrono::{NaiveDate, NaiveDateTime, NaiveTime};
+    use chrono::{NaiveDate, NaiveDateTime, NaiveTime, TimeZone, Utc};
     use serde::de::value::Error;
     use serde::de::IntoDeserializer;
 
@@ -106,28 +109,28 @@ mod tests {
         let deserializer = IntoDeserializer::<Error>::into_deserializer;
         assert_eq!(
             super::de(deserializer(csv)).unwrap(),
-            NaiveDateTime::new(
+            Utc.from_utc_datetime(&NaiveDateTime::new(
                 NaiveDate::from_ymd(2020, 1, 1),
                 NaiveTime::from_hms_micro(12, 11, 10, 999999)
-            ),
+            )),
         );
 
         let csv = "2020-01-01 12:11:10.99";
         assert_eq!(
             super::de(deserializer(csv)).unwrap(),
-            NaiveDateTime::new(
+            Utc.from_utc_datetime(&NaiveDateTime::new(
                 NaiveDate::from_ymd(2020, 1, 1),
                 NaiveTime::from_hms_micro(12, 11, 10, 990000)
-            ),
+            )),
         );
 
         let csv = "2020-01-01 12:11:10";
         assert_eq!(
             super::de(deserializer(csv)).unwrap(),
-            NaiveDateTime::new(
+            Utc.from_utc_datetime(&NaiveDateTime::new(
                 NaiveDate::from_ymd(2020, 1, 1),
                 NaiveTime::from_hms_micro(12, 11, 10, 0)
-            ),
+            )),
         );
     }
 }
