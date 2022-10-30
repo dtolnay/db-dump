@@ -56,15 +56,19 @@ where
     deserializer.deserialize_str(NaiveDateVisitor)
 }
 
-#[test]
-fn test_de() {
+#[cfg(test)]
+mod tests {
+    use super::*;
     use serde::de::value::Error;
     use serde::de::IntoDeserializer;
 
-    let csv = "2020-01-01";
-    let deserializer = IntoDeserializer::<Error>::into_deserializer;
-    assert_eq!(
-        self::de(deserializer(csv)).unwrap(),
-        NaiveDate::from_ymd(2020, 1, 1),
-    );
+    #[test]
+    fn test_de() {
+        let csv = "2020-01-01";
+        let deserializer = IntoDeserializer::<Error>::into_deserializer;
+        assert_eq!(
+            self::de(deserializer(csv)).unwrap(),
+            NaiveDate::from_ymd(2020, 1, 1),
+        );
+    }
 }

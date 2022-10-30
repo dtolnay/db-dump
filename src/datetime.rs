@@ -94,36 +94,40 @@ where
     deserializer.deserialize_str(NaiveDateTimeVisitor)
 }
 
-#[test]
-fn test_de() {
+#[cfg(test)]
+mod tests {
+    use super::*;
     use serde::de::value::Error;
     use serde::de::IntoDeserializer;
 
-    let csv = "2020-01-01 12:11:10.999999";
-    let deserializer = IntoDeserializer::<Error>::into_deserializer;
-    assert_eq!(
-        self::de(deserializer(csv)).unwrap(),
-        NaiveDateTime::new(
-            NaiveDate::from_ymd(2020, 1, 1),
-            NaiveTime::from_hms_micro(12, 11, 10, 999999)
-        ),
-    );
+    #[test]
+    fn test_de() {
+        let csv = "2020-01-01 12:11:10.999999";
+        let deserializer = IntoDeserializer::<Error>::into_deserializer;
+        assert_eq!(
+            self::de(deserializer(csv)).unwrap(),
+            NaiveDateTime::new(
+                NaiveDate::from_ymd(2020, 1, 1),
+                NaiveTime::from_hms_micro(12, 11, 10, 999999)
+            ),
+        );
 
-    let csv = "2020-01-01 12:11:10.99";
-    assert_eq!(
-        self::de(deserializer(csv)).unwrap(),
-        NaiveDateTime::new(
-            NaiveDate::from_ymd(2020, 1, 1),
-            NaiveTime::from_hms_micro(12, 11, 10, 990000)
-        ),
-    );
+        let csv = "2020-01-01 12:11:10.99";
+        assert_eq!(
+            self::de(deserializer(csv)).unwrap(),
+            NaiveDateTime::new(
+                NaiveDate::from_ymd(2020, 1, 1),
+                NaiveTime::from_hms_micro(12, 11, 10, 990000)
+            ),
+        );
 
-    let csv = "2020-01-01 12:11:10";
-    assert_eq!(
-        self::de(deserializer(csv)).unwrap(),
-        NaiveDateTime::new(
-            NaiveDate::from_ymd(2020, 1, 1),
-            NaiveTime::from_hms_micro(12, 11, 10, 0)
-        ),
-    );
+        let csv = "2020-01-01 12:11:10";
+        assert_eq!(
+            self::de(deserializer(csv)).unwrap(),
+            NaiveDateTime::new(
+                NaiveDate::from_ymd(2020, 1, 1),
+                NaiveTime::from_hms_micro(12, 11, 10, 0)
+            ),
+        );
+    }
 }
