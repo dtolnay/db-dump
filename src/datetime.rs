@@ -4,9 +4,9 @@ use std::fmt;
 
 // The timestamps in the db dump CSV do not mention a time zone, but in reality
 // they refer to UTC.
-struct CratesioTimeVisitor;
+struct CratesioDateTimeVisitor;
 
-impl<'de> Visitor<'de> for CratesioTimeVisitor {
+impl<'de> Visitor<'de> for CratesioDateTimeVisitor {
     type Value = DateTime<Utc>;
 
     fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
@@ -94,7 +94,7 @@ pub(crate) fn de<'de, D>(deserializer: D) -> Result<DateTime<Utc>, D::Error>
 where
     D: Deserializer<'de>,
 {
-    deserializer.deserialize_str(CratesioTimeVisitor)
+    deserializer.deserialize_str(CratesioDateTimeVisitor)
 }
 
 #[cfg(test)]

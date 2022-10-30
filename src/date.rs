@@ -1,11 +1,11 @@
-use chrono::NaiveDate;
+use chrono::{Date, NaiveDate, TimeZone, Utc};
 use serde::de::{Deserializer, Unexpected, Visitor};
 use std::fmt;
 
-struct NaiveDateVisitor;
+struct CratesioDateVisitor;
 
-impl<'de> Visitor<'de> for NaiveDateVisitor {
-    type Value = NaiveDate;
+impl<'de> Visitor<'de> for CratesioDateVisitor {
+    type Value = Date<Utc>;
 
     fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         formatter.write_str("date in format 'YYYY-MM-DD'")
@@ -37,10 +37,11 @@ impl<'de> Visitor<'de> for NaiveDateVisitor {
                 Ok(day) => day,
                 Err(_) => break,
             };
-            match NaiveDate::from_ymd_opt(year as i32, month as u32, day as u32) {
-                Some(naive_date) => return Ok(naive_date),
+            let naive_date = match NaiveDate::from_ymd_opt(year as i32, month as u32, day as u32) {
+                Some(naive_date) => naive_date,
                 None => break,
-            }
+            };
+            return Ok(Utc.from_utc_date(&naive_date));
         }
         Err(serde::de::Error::invalid_value(
             Unexpected::Str(string),
@@ -49,16 +50,16 @@ impl<'de> Visitor<'de> for NaiveDateVisitor {
     }
 }
 
-pub(crate) fn de<'de, D>(deserializer: D) -> Result<NaiveDate, D::Error>
+pub(crate) fn de<'de, D>(deserializer: D) -> Result<Date<Utc>, D::Error>
 where
     D: Deserializer<'de>,
 {
-    deserializer.deserialize_str(NaiveDateVisitor)
+    deserializer.deserialize_str(CratesioDateVisitor)
 }
 
 #[cfg(test)]
 mod tests {
-    use chrono::NaiveDate;
+    use chrono::{NaiveDate, TimeZone, Utc};
     use serde::de::value::Error;
     use serde::de::IntoDeserializer;
 
@@ -68,7 +69,7 @@ mod tests {
         let deserializer = IntoDeserializer::<Error>::into_deserializer;
         assert_eq!(
             super::de(deserializer(csv)).unwrap(),
-            NaiveDate::from_ymd(2020, 1, 1),
+            Utc.from_utc_date(&NaiveDate::from_ymd(2020, 1, 1)),
         );
     }
 }

@@ -56,11 +56,11 @@ graph of the resulting table. It shows crates.io download rate doubling every 9
 months, or equivalently 10&times; every 2.5 years!
 
 ```rust
-use chrono::NaiveDate;
+use chrono::{Date, Utc};
 use std::collections::BTreeMap as Map;
 
 fn main() -> db_dump::Result<()> {
-    let mut downloads = Map::<NaiveDate, u64>::new();
+    let mut downloads = Map::<Date<Utc>, u64>::new();
     db_dump::Loader::new()
         .version_downloads(|row| {
             *downloads.entry(row.date).or_default() += row.downloads;
