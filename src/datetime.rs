@@ -110,8 +110,8 @@ mod tests {
         assert_eq!(
             super::de(deserializer(csv)).unwrap(),
             Utc.from_utc_datetime(&NaiveDateTime::new(
-                NaiveDate::from_ymd(2020, 1, 1),
-                NaiveTime::from_hms_micro(12, 11, 10, 999999)
+                NaiveDate::from_ymd_opt(2020, 1, 1).unwrap(),
+                NaiveTime::from_hms_micro_opt(12, 11, 10, 999999).unwrap(),
             )),
         );
 
@@ -119,8 +119,8 @@ mod tests {
         assert_eq!(
             super::de(deserializer(csv)).unwrap(),
             Utc.from_utc_datetime(&NaiveDateTime::new(
-                NaiveDate::from_ymd(2020, 1, 1),
-                NaiveTime::from_hms_micro(12, 11, 10, 990000)
+                NaiveDate::from_ymd_opt(2020, 1, 1).unwrap(),
+                NaiveTime::from_hms_micro_opt(12, 11, 10, 990000).unwrap(),
             )),
         );
 
@@ -128,8 +128,8 @@ mod tests {
         assert_eq!(
             super::de(deserializer(csv)).unwrap(),
             Utc.from_utc_datetime(&NaiveDateTime::new(
-                NaiveDate::from_ymd(2020, 1, 1),
-                NaiveTime::from_hms_micro(12, 11, 10, 0)
+                NaiveDate::from_ymd_opt(2020, 1, 1).unwrap(),
+                NaiveTime::from_hms_micro_opt(12, 11, 10, 0).unwrap(),
             )),
         );
     }
