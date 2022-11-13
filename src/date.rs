@@ -1,3 +1,5 @@
+#![allow(deprecated)] // https://github.com/chronotope/chrono/issues/820#issuecomment-1312651118
+
 use chrono::{Date, NaiveDate, TimeZone, Utc};
 use serde::de::{Deserializer, Unexpected, Visitor};
 use std::fmt;

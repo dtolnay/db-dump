@@ -1,5 +1,7 @@
 //! <b style="font-variant:small-caps">version_downloads.csv</b>
 
+#![allow(deprecated)] // https://github.com/chronotope/chrono/issues/820#issuecomment-1312651118
+
 use crate::versions::VersionId;
 use chrono::{Date, Utc};
 use serde_derive::Deserialize;
