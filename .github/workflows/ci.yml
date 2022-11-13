@@ -38,6 +38,8 @@ jobs:
           toolchain: ${{matrix.rust}}
       - run: cargo check --workspace
       - run: cargo check --examples
+        env:
+          RUSTFLAGS: -Adeprecated ${{env.RUSTFLAGS}} # https://github.com/chronotope/chrono/issues/820#issuecomment-1312651118
       - run: cargo check --features serde/derive
       - run: cargo test --lib
       - run: cargo test --doc
@@ -51,6 +53,8 @@ jobs:
       - uses: dtolnay/rust-toolchain@clippy
       - run: cargo clippy --tests --workspace -- -Dclippy::all -Dclippy::pedantic
       - run: cargo clippy --examples -- -Dclippy::all -Dclippy::pedantic -Aclippy::cast_lossless -Aclippy::cast_precision_loss -Aclippy::doc_markdown -Aclippy::from_iter_instead_of_collect -Aclippy::uninlined_format_args
+        env:
+          RUSTFLAGS: -Adeprecated ${{env.RUSTFLAGS}} # https://github.com/chronotope/chrono/issues/820#issuecomment-1312651118
 
   outdated:
     name: Outdated
