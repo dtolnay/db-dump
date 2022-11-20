@@ -1,5 +1,3 @@
-#![allow(deprecated)] // https://github.com/chronotope/chrono/issues/820#issuecomment-1312651118
-
 use chrono::{Day, NaiveDate, Utc};
 use serde::de::{Deserializer, Unexpected, Visitor};
 use std::fmt;
@@ -71,7 +69,7 @@ mod tests {
         let deserializer = IntoDeserializer::<Error>::into_deserializer;
         assert_eq!(
             super::de(deserializer(csv)).unwrap(),
-            Day::new(NaiveDate::from_ymd(2020, 1, 1), Utc),
+            Day::new(NaiveDate::from_ymd_opt(2020, 1, 1).unwrap(), Utc),
         );
     }
 }
