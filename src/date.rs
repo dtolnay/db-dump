@@ -1,13 +1,13 @@
 #![allow(deprecated)] // https://github.com/chronotope/chrono/issues/820#issuecomment-1312651118
 
-use chrono::{Date, NaiveDate, TimeZone, Utc};
+use chrono::{Day, NaiveDate, Utc};
 use serde::de::{Deserializer, Unexpected, Visitor};
 use std::fmt;
 
 struct CratesioDateVisitor;
 
 impl<'de> Visitor<'de> for CratesioDateVisitor {
-    type Value = Date<Utc>;
+    type Value = Day<Utc>;
 
     fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         formatter.write_str("date in format 'YYYY-MM-DD'")
@@ -43,7 +43,7 @@ impl<'de> Visitor<'de> for CratesioDateVisitor {
                 Some(naive_date) => naive_date,
                 None => break,
             };
-            return Ok(Utc.from_utc_date(&naive_date));
+            return Ok(Day::new(naive_date, Utc));
         }
         Err(serde::de::Error::invalid_value(
             Unexpected::Str(string),
@@ -52,7 +52,7 @@ impl<'de> Visitor<'de> for CratesioDateVisitor {
     }
 }
 
-pub(crate) fn de<'de, D>(deserializer: D) -> Result<Date<Utc>, D::Error>
+pub(crate) fn de<'de, D>(deserializer: D) -> Result<Day<Utc>, D::Error>
 where
     D: Deserializer<'de>,
 {
@@ -61,7 +61,7 @@ where
 
 #[cfg(test)]
 mod tests {
-    use chrono::{NaiveDate, TimeZone, Utc};
+    use chrono::{Day, NaiveDate, Utc};
     use serde::de::value::Error;
     use serde::de::IntoDeserializer;
 
@@ -71,7 +71,7 @@ mod tests {
         let deserializer = IntoDeserializer::<Error>::into_deserializer;
         assert_eq!(
             super::de(deserializer(csv)).unwrap(),
-            Utc.from_utc_date(&NaiveDate::from_ymd(2020, 1, 1)),
+            Day::new(NaiveDate::from_ymd(2020, 1, 1), Utc),
         );
     }
 }

@@ -16,7 +16,7 @@ pub(crate) struct ErrorImpl {
     kind: ErrorKind,
 }
 
-pub(crate) enum ErrorKind {
+pub enum ErrorKind {
     Msg(String),
     Csv(csv::Error),
     Io(io::Error),
@@ -49,7 +49,7 @@ impl Debug for Error {
     }
 }
 
-pub(crate) fn err(variant: impl Into<ErrorKind>) -> Error {
+pub fn err(variant: impl Into<ErrorKind>) -> Error {
     Error {
         e: Box::new(ErrorImpl {
             path: None,

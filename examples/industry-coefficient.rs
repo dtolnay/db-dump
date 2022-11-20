@@ -4,8 +4,9 @@
 //!   • HIGH if the crate is disproportionately often downloaded on weekDAYS,
 //!   • and LOW if the crate is disproportionately often downloaded on weekENDS.
 
-use chrono::{Datelike, Duration, Weekday};
+use chrono::{Datelike, Days, Weekday};
 use db_dump::crates::CrateId;
+use db_dump::err;
 use db_dump::versions::VersionId;
 use std::collections::BTreeMap as Map;
 
@@ -32,7 +33,9 @@ fn main() -> db_dump::Result<()> {
         .load("./db-dump.tar.gz")?;
 
     let max_date = version_downloads.iter().map(|row| row.date).max().unwrap();
-    let start_date = max_date - Duration::weeks(6);
+    let start_date = max_date
+        .checked_sub_days(Days::new(6 * 7))
+        .ok_or_else(|| err(format_args!("Unable to add six weeks to date {max_date}")))?;
 
     // Add up downloads by crate by date
     let mut downloads: Map<CrateId, Downloads> = Map::new();
@@ -42,7 +45,7 @@ fn main() -> db_dump::Result<()> {
         if row.date >= start_date && row.date < max_date {
             let crate_id = versions[&row.version_id];
             let downloads = downloads.entry(crate_id).or_insert_with(Downloads::default);
-            match row.date.weekday() {
+            match row.date.date().weekday() {
                 Weekday::Tue | Weekday::Wed | Weekday::Thu => downloads.weekday += row.downloads,
                 Weekday::Sat | Weekday::Sun => downloads.weekend += row.downloads,
                 // Disregard these to reduce some boundary effect from

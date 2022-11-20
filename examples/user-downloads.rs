@@ -3,7 +3,7 @@
 //! Computes time series of the fraction of crates.io downloads attributed to a
 //! single given user's crates.
 
-use chrono::{Date, Utc};
+use chrono::{Day, Utc};
 use std::collections::{BTreeMap as Map, BTreeSet as Set};
 
 const USER: &str = "dtolnay";
@@ -51,7 +51,7 @@ fn main() -> db_dump::Result<()> {
 
     // Add up downloads across that user's crates, as well as total downloads of
     // all crates.
-    let mut downloads = Map::<Date<Utc>, Downloads>::new();
+    let mut downloads = Map::<Day<Utc>, Downloads>::new();
     for stat in version_downloads {
         let entry = downloads.entry(stat.date).or_default();
         entry.all += stat.downloads;

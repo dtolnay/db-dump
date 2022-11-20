@@ -2,7 +2,7 @@
 //!
 //! Computes time series of downloads of one specific crate.
 
-use chrono::{Date, Utc};
+use chrono::{Day, Utc};
 use std::collections::{BTreeMap as Map, BTreeSet as Set};
 
 const CRATE: &str = "syn";
@@ -33,7 +33,7 @@ fn main() -> db_dump::Result<()> {
     }
 
     // Add up downloads across all version of the crate by day.
-    let mut downloads = Map::<Date<Utc>, u64>::new();
+    let mut downloads = Map::<Day<Utc>, u64>::new();
     for stat in version_downloads {
         if version_ids.contains(&stat.version_id) {
             *downloads.entry(stat.date).or_default() += stat.downloads;

@@ -39,7 +39,7 @@ pub mod users;
 pub mod version_downloads;
 pub mod versions;
 
-pub use crate::error::{Error, Result};
+pub use crate::error::{err, Error, Result};
 pub use crate::index::Index;
 pub use crate::load::{load_all, Loader};
 
