@@ -39,9 +39,10 @@ impl<'de> Visitor<'de> for CratesioDateVisitor {
                 Ok(day) => day,
                 Err(_) => break,
             };
-            let naive_date = match NaiveDate::from_ymd_opt(year as i32, month as u32, day as u32) {
-                Some(naive_date) => naive_date,
-                None => break,
+            let Some(naive_date) = ({
+                NaiveDate::from_ymd_opt(year as i32, month as u32, day as u32)
+            }) else {
+                break;
             };
             return Ok(Utc.from_utc_date(&naive_date));
         }

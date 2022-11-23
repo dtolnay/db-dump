@@ -40,9 +40,10 @@ impl<'de> Visitor<'de> for CratesioDateTimeVisitor {
                 Ok(day) => day,
                 Err(_) => break,
             };
-            let naive_date = match NaiveDate::from_ymd_opt(year as i32, month as u32, day as u32) {
-                Some(naive_date) => naive_date,
-                None => break,
+            let Some(naive_date) = ({
+                NaiveDate::from_ymd_opt(year as i32, month as u32, day as u32)
+            }) else {
+                break;
             };
             if string[10..11] != *" " {
                 break;
@@ -75,11 +76,11 @@ impl<'de> Visitor<'de> for CratesioDateTimeVisitor {
             } else {
                 break;
             };
-            let naive_time =
-                match NaiveTime::from_hms_micro_opt(hour as u32, min as u32, sec as u32, micro) {
-                    Some(naive_time) => naive_time,
-                    None => break,
-                };
+            let Some(naive_time) = ({
+                NaiveTime::from_hms_micro_opt(hour as u32, min as u32, sec as u32, micro)
+            }) else {
+                break;
+            };
             let naive_date_time = NaiveDateTime::new(naive_date, naive_time);
             return Ok(Utc.from_utc_datetime(&naive_date_time));
         }
