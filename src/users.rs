@@ -8,7 +8,7 @@ use std::hash::{Hash, Hasher};
 /// Primary key of **users.csv**.
 #[derive(Serialize, Deserialize, Copy, Clone, Ord, PartialOrd, Eq, PartialEq, Hash, Debug)]
 #[serde(transparent)]
-#[repr(transparent)]
+#[cfg_attr(not(doc), repr(transparent))]
 pub struct UserId(pub u32);
 
 /// One row of **users.csv**.

@@ -9,7 +9,7 @@ use std::hash::{Hash, Hasher};
 /// Primary key of **crates.csv**.
 #[derive(Serialize, Deserialize, Copy, Clone, Ord, PartialOrd, Eq, PartialEq, Hash, Debug)]
 #[serde(transparent)]
-#[repr(transparent)]
+#[cfg_attr(not(doc), repr(transparent))]
 pub struct CrateId(pub u32);
 
 /// One row of **crates.csv**.
