@@ -25,6 +25,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@nightly
+      - name: Enable type layout randomization
+        run: echo RUSTFLAGS=${RUSTFLAGS}\ -Zrandomize-layout >> $GITHUB_ENV
       - name: wget https://static.crates.io/db-dump.tar.gz
         run: wget --user-agent=github.com/dtolnay/db-dump https://static.crates.io/db-dump.tar.gz
       - run: cargo run --release --example load-all
@@ -46,6 +48,9 @@ jobs:
       - uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{matrix.rust}}
+      - name: Enable type layout randomization
+        run: echo RUSTFLAGS=${RUSTFLAGS}\ -Zrandomize-layout >> $GITHUB_ENV
+        if: matrix.rust == 'nightly'
       - run: cargo check --workspace
       - run: cargo check --examples
         env:
