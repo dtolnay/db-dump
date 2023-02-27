@@ -112,7 +112,7 @@ fn main() -> Result<()> {
             if path.extension().map_or(true, |ext| ext != "csv") {
                 continue;
             }
-            let _ = writeln!(stderr, "loading {}", path.display());
+            _ = writeln!(stderr, "loading {}", path.display());
             let mut components = path.components();
             let datestamp = match components.next() {
                 Some(Component::Normal(datestamp)) => datestamp.to_string_lossy(),
@@ -147,7 +147,7 @@ fn main() -> Result<()> {
     let datestamp_fmt = "%Y-%m-%d-%H%M%S";
     let timestamp = NaiveDateTime::parse_from_str(&max_datestamp, datestamp_fmt)?.timestamp();
 
-    let _ = writeln!(stderr, "serializing csv");
+    _ = writeln!(stderr, "serializing csv");
     let mut csv_writer = csv::Writer::from_writer(Vec::new());
     for ((date, version_id), downloads) in version_downloads {
         csv_writer.serialize(VersionDownloads {
@@ -174,7 +174,7 @@ fn main() -> Result<()> {
     let mut tar = tar::Builder::new(gz);
 
     for (relative, entry) in other_files {
-        let _ = writeln!(stderr, "writing {}", relative.display());
+        _ = writeln!(stderr, "writing {}", relative.display());
         let path = Path::new(&max_datestamp).join(relative);
         let mut header = tar::Header::new_gnu();
         header.set_mode(0o600);
