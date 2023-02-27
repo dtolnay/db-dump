@@ -18,6 +18,7 @@
 #![allow(
     clippy::cast_lossless,
     clippy::cast_sign_loss,
+    clippy::let_underscore_untyped,
     clippy::never_loop,
     clippy::too_many_lines,
     clippy::trivially_copy_pass_by_ref,
