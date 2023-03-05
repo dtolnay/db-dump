@@ -25,7 +25,12 @@ pub(crate) enum ErrorKind {
 
 impl std::error::Error for Error {
     fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
-        None
+        match &self.e.kind {
+            ErrorKind::Msg(_) => None,
+            ErrorKind::Io(e) => e.source(),
+            ErrorKind::Csv(e) => e.source(),
+            ErrorKind::Json(e) => e.source(),
+        }
     }
 }
 
