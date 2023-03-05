@@ -1,4 +1,4 @@
-#![doc(html_root_url = "https://docs.rs/db-dump/0.4.2")]
+#![doc(html_root_url = "https://docs.rs/db-dump/0.4.3")]
 #![allow(
     clippy::cast_lossless,
     clippy::cast_possible_truncation,
