@@ -1,0 +1,35 @@
+name: Load
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  schedule: [cron: "0 3 * * *"]
+
+permissions:
+  contents: read
+
+env:
+  RUSTFLAGS: -Dwarnings
+
+jobs:
+  pre_ci:
+    uses: dtolnay/.github/.github/workflows/pre_ci.yml@master
+
+  load:
+    name: Load
+    needs: pre_ci
+    if: needs.pre_ci.outputs.continue
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dtolnay/rust-toolchain@nightly
+      - name: Enable type layout randomization
+        run: echo RUSTFLAGS=${RUSTFLAGS}\ -Zrandomize-layout >> $GITHUB_ENV
+      - name: wget https://static.crates.io/db-dump.tar.gz
+        run: wget --user-agent=github.com/dtolnay/db-dump https://static.crates.io/db-dump.tar.gz
+      - run: tar tf db-dump.tar.gz | head -1
+      - run: cargo run --release --example load-all
+        env:
+          RUSTFLAGS: --cfg db_dump_panic_on_unrecognized_csv ${{env.RUSTFLAGS}}
