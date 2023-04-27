@@ -45,7 +45,7 @@ pub struct Row {
     pub checksum: Option<[u8; 32]>,
     #[serde(default)]
     pub links: Option<String>,
-    #[serde(deserialize_with = "rust_version")]
+    #[serde(default, deserialize_with = "rust_version")]
     pub rust_version: Option<Version>,
 }
 
