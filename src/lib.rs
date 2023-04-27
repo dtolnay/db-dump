@@ -121,6 +121,7 @@ pub struct DbDump {
     /// <td>features</td>
     /// <td>target</td>
     /// <td>kind</td>
+    /// <td>explicit_name</td>
     /// </tr></table>
     pub dependencies: Vec<dependencies::Row>,
 
@@ -187,6 +188,9 @@ pub struct DbDump {
     /// <td>license</td>
     /// <td>crate_size</td>
     /// <td>published_by</td>
+    /// <td>checksum</td>
+    /// <td>links</td>
+    /// <td>rust_version</td>
     /// </tr></table>
     pub versions: Vec<versions::Row>,
 }
