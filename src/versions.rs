@@ -3,7 +3,7 @@
 use crate::crates::CrateId;
 use crate::users::UserId;
 use chrono::{DateTime, Utc};
-use semver::Version;
+use semver::{BuildMetadata, Op, Version, VersionReq};
 use serde::de::{Deserializer, Unexpected, Visitor};
 use serde_derive::{Deserialize, Serialize};
 use std::borrow::Borrow;
@@ -11,6 +11,7 @@ use std::cmp::Ordering;
 use std::collections::BTreeMap as Map;
 use std::fmt;
 use std::hash::{Hash, Hasher};
+use std::str::FromStr;
 
 /// Primary key of **versions.csv**.
 #[derive(Serialize, Deserialize, Copy, Clone, Ord, PartialOrd, Eq, PartialEq, Hash, Debug)]
@@ -44,6 +45,8 @@ pub struct Row {
     pub checksum: Option<[u8; 32]>,
     #[serde(default)]
     pub links: Option<String>,
+    #[serde(deserialize_with = "rust_version")]
+    pub rust_version: Option<Version>,
 }
 
 impl Ord for Row {
@@ -184,4 +187,59 @@ where
     D: Deserializer<'de>,
 {
     deserializer.deserialize_str(ChecksumVisitor)
+}
+
+struct RustVersionVisitor;
+
+impl<'de> Visitor<'de> for RustVersionVisitor {
+    type Value = Option<Version>;
+
+    fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        formatter.write_str("a compiler version number")
+    }
+
+    fn visit_str<E>(self, string: &str) -> Result<Self::Value, E>
+    where
+        E: serde::de::Error,
+    {
+        match VersionReq::from_str(string) {
+            Ok(mut req) if req.comparators.len() == 1 => {
+                let req = req.comparators.pop().unwrap();
+                if req.op == Op::Caret {
+                    Ok(Some(Version {
+                        major: req.major,
+                        minor: req.minor.unwrap_or(0),
+                        patch: req.patch.unwrap_or(0),
+                        pre: req.pre,
+                        build: BuildMetadata::EMPTY,
+                    }))
+                } else {
+                    Ok(None)
+                }
+            }
+            Ok(_) => Ok(None),
+            Err(parse_error) => Err(E::custom(parse_error)),
+        }
+    }
+
+    fn visit_some<D>(self, deserializer: D) -> Result<Self::Value, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        deserializer.deserialize_str(self)
+    }
+
+    fn visit_none<E>(self) -> Result<Self::Value, E>
+    where
+        E: serde::de::Error,
+    {
+        Ok(None)
+    }
+}
+
+fn rust_version<'de, D>(deserializer: D) -> Result<Option<Version>, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    deserializer.deserialize_option(RustVersionVisitor)
 }
