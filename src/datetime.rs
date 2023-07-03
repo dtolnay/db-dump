@@ -40,8 +40,7 @@ impl<'de> Visitor<'de> for CratesioDateTimeVisitor {
                 Ok(day) => day,
                 Err(_) => break,
             };
-            let Some(naive_date) =
-                ({ NaiveDate::from_ymd_opt(year as i32, month as u32, day as u32) })
+            let Some(naive_date) = NaiveDate::from_ymd_opt(year as i32, month as u32, day as u32)
             else {
                 break;
             };
@@ -77,7 +76,7 @@ impl<'de> Visitor<'de> for CratesioDateTimeVisitor {
                 break;
             };
             let Some(naive_time) =
-                ({ NaiveTime::from_hms_micro_opt(hour as u32, min as u32, sec as u32, micro) })
+                NaiveTime::from_hms_micro_opt(hour as u32, min as u32, sec as u32, micro)
             else {
                 break;
             };

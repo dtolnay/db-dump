@@ -39,8 +39,7 @@ impl<'de> Visitor<'de> for CratesioDateVisitor {
                 Ok(day) => day,
                 Err(_) => break,
             };
-            let Some(naive_date) =
-                ({ NaiveDate::from_ymd_opt(year as i32, month as u32, day as u32) })
+            let Some(naive_date) = NaiveDate::from_ymd_opt(year as i32, month as u32, day as u32)
             else {
                 break;
             };
