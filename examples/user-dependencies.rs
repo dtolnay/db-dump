@@ -5,7 +5,6 @@
 
 use std::collections::btree_map::Entry;
 use std::collections::{BTreeMap as Map, BTreeSet as Set};
-use std::iter::FromIterator;
 
 const USER: &str = "dtolnay";
 
