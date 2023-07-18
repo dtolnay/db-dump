@@ -38,7 +38,7 @@ impl Ord for Row {
 
 impl PartialOrd for Row {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
-        CategoryId::partial_cmp(&self.id, &other.id)
+        Some(self.cmp(other))
     }
 }
 

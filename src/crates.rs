@@ -41,7 +41,7 @@ impl Ord for Row {
 
 impl PartialOrd for Row {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
-        CrateId::partial_cmp(&self.id, &other.id)
+        Some(self.cmp(other))
     }
 }
 
