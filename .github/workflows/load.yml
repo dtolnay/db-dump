@@ -27,7 +27,6 @@ jobs:
       - uses: dtolnay/rust-toolchain@nightly
       - name: Enable type layout randomization
         run: echo RUSTFLAGS=${RUSTFLAGS}\ -Zrandomize-layout >> $GITHUB_ENV
-        if: false # FIXME https://github.com/rust-lang/rust/issues/113941
       - name: curl https://static.crates.io/db-dump.tar.gz
         run: curl https://static.crates.io/db-dump.tar.gz --user-agent github.com/dtolnay/db-dump --location --remote-name --silent --show-error --fail --retry 2
       - run: tar tf db-dump.tar.gz | head -1
