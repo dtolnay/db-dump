@@ -63,7 +63,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@clippy
       - run: cargo clippy --tests --workspace -- -Dclippy::all -Dclippy::pedantic
-      - run: cargo clippy --examples -- -Dclippy::all -Dclippy::pedantic -Aclippy::cast_lossless -Aclippy::cast_precision_loss -Aclippy::doc_markdown -Aclippy::from_iter_instead_of_collect -Aclippy::uninlined_format_args
+      - run: cargo clippy --examples -- -Dclippy::all -Dclippy::pedantic -Aclippy::cast_lossless -Aclippy::cast_precision_loss -Aclippy::doc_markdown -Aclippy::from_iter_instead_of_collect -Aclippy::uninlined_format_args -Aclippy::unwrap_or_default
         env:
           RUSTFLAGS: -Adeprecated ${{env.RUSTFLAGS}} # https://github.com/chronotope/chrono/issues/820#issuecomment-1312651118
 
