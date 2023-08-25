@@ -6,7 +6,7 @@ use crate::users::UserId;
 use crate::versions::VersionId;
 use crate::DbDump;
 use fnv::FnvHashMap as Map;
-use once_cell::sync::OnceCell;
+use std::sync::OnceLock;
 
 impl DbDump {
     /// Create a lazy index of those tables that have a unique ID column as
@@ -76,12 +76,12 @@ impl DbDump {
 /// ```
 pub struct Index<'a> {
     db: &'a DbDump,
-    categories: OnceCell<Map<CategoryId, u32>>,
-    crates: OnceCell<Map<CrateId, u32>>,
-    keywords: OnceCell<Map<KeywordId, u32>>,
-    teams: OnceCell<Map<TeamId, u32>>,
-    users: OnceCell<Map<UserId, u32>>,
-    versions: OnceCell<Map<VersionId, u32>>,
+    categories: OnceLock<Map<CategoryId, u32>>,
+    crates: OnceLock<Map<CrateId, u32>>,
+    keywords: OnceLock<Map<KeywordId, u32>>,
+    teams: OnceLock<Map<TeamId, u32>>,
+    users: OnceLock<Map<UserId, u32>>,
+    versions: OnceLock<Map<VersionId, u32>>,
 }
 
 impl<'a> Index<'a> {
@@ -90,12 +90,12 @@ impl<'a> Index<'a> {
     pub fn new(db: &'a DbDump) -> Self {
         Index {
             db,
-            categories: OnceCell::new(),
-            crates: OnceCell::new(),
-            keywords: OnceCell::new(),
-            teams: OnceCell::new(),
-            users: OnceCell::new(),
-            versions: OnceCell::new(),
+            categories: OnceLock::new(),
+            crates: OnceLock::new(),
+            keywords: OnceLock::new(),
+            teams: OnceLock::new(),
+            users: OnceLock::new(),
+            versions: OnceLock::new(),
         }
     }
 
