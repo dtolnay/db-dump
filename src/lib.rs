@@ -99,6 +99,7 @@ pub struct DbDump {
     /// <td>readme</td>
     /// <td>repository</td>
     /// <td>max_upload_size</td>
+    /// <td>max_features</td>
     /// </tr></table>
     pub crates: Vec<crates::Row>,
 

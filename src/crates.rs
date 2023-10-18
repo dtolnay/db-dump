@@ -31,6 +31,7 @@ pub struct Row {
     pub readme: Option<String>,
     pub repository: Option<String>,
     pub max_upload_size: Option<u64>,
+    pub max_features: Option<u16>,
 }
 
 impl Ord for Row {
