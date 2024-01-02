@@ -18,9 +18,9 @@ fnv = "1.0.7"
 indicatif = "0.17.5"
 memmap = "0.7"
 semver = { version = "1.0.17", features = ["serde"] }
-serde = "1.0.166"
-serde_derive = "1.0.166"
-serde_json = "1.0.99"
+serde = "1.0.194"
+serde_derive = "1.0.194"
+serde_json = "1.0.110"
 tar = "0.4.38"
 
 [lib]

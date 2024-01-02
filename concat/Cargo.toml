@@ -14,13 +14,13 @@ name = "db-dump-concat"
 path = "main.rs"
 
 [dependencies]
-anyhow = "1.0"
+anyhow = "1.0.79"
 chrono = "0.4"
 clap = { version = "4", features = ["deprecated", "derive"] }
 csv = "1.1"
 flate2 = "1.0"
 glob = "0.3"
 memmap = "0.7"
-serde = "1.0"
-serde_derive = "1.0"
+serde = "1.0.194"
+serde_derive = "1.0.194"
 tar = "0.4"
