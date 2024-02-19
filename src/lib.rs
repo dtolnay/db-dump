@@ -30,7 +30,6 @@ mod error;
 mod index;
 mod load;
 
-pub mod badges;
 pub mod categories;
 pub mod crate_owners;
 pub mod crates;
@@ -56,14 +55,6 @@ pub use crate::load::{load_all, Loader};
 #[derive(Default)]
 #[non_exhaustive]
 pub struct DbDump {
-    /// <table style="width:initial"><tr>
-    /// <th>badges.csv</th>
-    /// <td>crate_id</td>
-    /// <td>badge_type</td>
-    /// <td>attributes</td>
-    /// </tr></table>
-    pub badges: Vec<badges::Row>,
-
     /// <table style="width:initial"><tr>
     /// <th>categories.csv</th>
     /// <td>id</td>

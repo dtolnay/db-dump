@@ -42,7 +42,6 @@ use tar::Archive;
 /// ```
 #[derive(Default)]
 pub struct Loader<'a> {
-    badges: Option<Callback<'a, crate::badges::Row>>,
     categories: Option<Callback<'a, crate::categories::Row>>,
     crate_owners: Option<Callback<'a, crate::crate_owners::Row>>,
     crates: Option<Callback<'a, crate::crates::Row>>,
@@ -66,11 +65,6 @@ struct Callback<'a, T> {
 impl<'a> Loader<'a> {
     pub fn new() -> Self {
         Loader::default()
-    }
-
-    pub fn badges(&mut self, f: impl FnMut(crate::badges::Row) + 'a) -> &mut Self {
-        self.badges = Some(Callback::new(f));
-        self
     }
 
     pub fn categories(&mut self, f: impl FnMut(crate::categories::Row) + 'a) -> &mut Self {
@@ -187,7 +181,6 @@ fn do_load(path: &Path, loader: &mut Loader) -> Result<()> {
     for entry in archive.entries()? {
         #[deny(unused_variables)]
         let Loader {
-            badges,
             categories,
             crate_owners,
             crates,
@@ -203,8 +196,7 @@ fn do_load(path: &Path, loader: &mut Loader) -> Result<()> {
             versions,
         } = loader;
 
-        if badges.as_ref().map_or(true, Callback::done)
-            && categories.as_ref().map_or(true, Callback::done)
+        if categories.as_ref().map_or(true, Callback::done)
             && crate_owners.as_ref().map_or(true, Callback::done)
             && crates.as_ref().map_or(true, Callback::done)
             && crates_categories.as_ref().map_or(true, Callback::done)
@@ -234,7 +226,6 @@ fn do_load(path: &Path, loader: &mut Loader) -> Result<()> {
 
         #[deny(unused_variables)]
         let Loader {
-            badges,
             categories,
             crate_owners,
             crates,
@@ -251,7 +242,7 @@ fn do_load(path: &Path, loader: &mut Loader) -> Result<()> {
         } = loader;
 
         let (path, result) = if path.ends_with("badges.csv") {
-            ("badges", read(badges, entry))
+            continue; // https://github.com/rust-lang/crates.io/pull/8155
         } else if path.ends_with("categories.csv") {
             ("categories", read(categories, entry))
         } else if path.ends_with("crate_owners.csv") {
@@ -337,28 +328,28 @@ where
 /// # use db_dump::Result;
 /// #
 /// # struct DbDump {
-/// #     badges: Vec<db_dump::badges::Row>,
 /// #     categories: Vec<db_dump::categories::Row>,
+/// #     crate_owners: Vec<db_dump::crate_owners::Row>,
 /// #     versions: Vec<db_dump::versions::Row>,
 /// # }
 /// #
 /// # pub fn load_all(path: impl AsRef<Path>) -> Result<DbDump> {
 /// #     let path = path.as_ref();
-/// let mut badges = Vec::new();
 /// let mut categories = Vec::new();
+/// let mut crate_owners = Vec::new();
 /// /* ... */
 /// let mut versions = Vec::new();
 ///
 /// db_dump::Loader::new()
-///     .badges(|row| badges.push(row))
 ///     .categories(|row| categories.push(row))
+///     .crate_owners(|row| crate_owners.push(row))
 ///     /* ... */
 ///     .versions(|row| versions.push(row))
 ///     .load(path)?;
 ///
 /// Ok(DbDump {
-///     badges,
 ///     categories,
+///     crate_owners,
 ///     /* ... */
 ///     versions,
 /// })
@@ -373,7 +364,6 @@ pub fn load_all(path: impl AsRef<Path>) -> Result<DbDump> {
 }
 
 fn do_load_all(path: &Path) -> Result<DbDump> {
-    let mut badges = Vec::new();
     let mut categories = Vec::new();
     let mut crate_owners = Vec::new();
     let mut crates = Vec::new();
@@ -389,7 +379,6 @@ fn do_load_all(path: &Path) -> Result<DbDump> {
     let mut versions = Vec::new();
 
     let mut loader = Loader {
-        badges: Some(Callback::new(|row| badges.push(row))),
         categories: Some(Callback::new(|row| categories.push(row))),
         crate_owners: Some(Callback::new(|row| crate_owners.push(row))),
         crates: Some(Callback::new(|row| crates.push(row))),
@@ -409,7 +398,6 @@ fn do_load_all(path: &Path) -> Result<DbDump> {
     drop(loader);
 
     Ok(DbDump {
-        badges,
         categories,
         crate_owners,
         crates,
