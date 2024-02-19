@@ -13,11 +13,6 @@ packaged into a single download. An updated dump is published every 24 hours.
 The latest dump is available at
 *https://<span></span>static.crates.io/db-dump.tar.gz*.
 
-```toml
-[dependencies]
-db-dump = "0.2"
-```
-
 <br>
 
 ## Examples
