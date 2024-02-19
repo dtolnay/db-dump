@@ -1,6 +1,6 @@
 [package]
 name = "db-dump"
-version = "0.5.0"
+version = "0.5.1"
 authors = ["David Tolnay <dtolnay@gmail.com>"]
 categories = ["encoding", "database"]
 description = "Library for scripting analyses against crates.io's database dumps"
