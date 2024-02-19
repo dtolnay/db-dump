@@ -274,6 +274,8 @@ fn do_load(path: &Path, loader: &mut Loader) -> Result<()> {
             ("teams", read(teams, entry))
         } else if path.ends_with("users.csv") {
             ("users", read(users, entry))
+        } else if path.ends_with("version_authors.csv") {
+            continue; // https://github.com/rust-lang/crates.io/pull/3549
         } else if path.ends_with("version_downloads.csv") {
             ("version_downloads", read(version_downloads, entry))
         } else if path.ends_with("versions.csv") {
