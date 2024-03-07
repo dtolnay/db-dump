@@ -31,6 +31,7 @@ mod index;
 mod load;
 
 pub mod categories;
+pub mod crate_downloads;
 pub mod crate_owners;
 pub mod crates;
 pub mod crates_categories;
@@ -66,6 +67,13 @@ pub struct DbDump {
     /// <td>path</td>
     /// </tr></table>
     pub categories: Vec<categories::Row>,
+
+    /// <table style="width:initial"><tr>
+    /// <th>crate_downloads.csv</th>
+    /// <td>crate_id</td>
+    /// <td>downloads</td>
+    /// </tr></table>
+    pub crate_downloads: Vec<crate_downloads::Row>,
 
     /// <table style="width:initial"><tr>
     /// <th>crate_owners.csv</th>
