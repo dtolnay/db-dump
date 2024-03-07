@@ -146,7 +146,9 @@ fn main() -> Result<()> {
     }
 
     let datestamp_fmt = "%Y-%m-%d-%H%M%S";
-    let timestamp = NaiveDateTime::parse_from_str(&max_datestamp, datestamp_fmt)?.timestamp();
+    let timestamp = NaiveDateTime::parse_from_str(&max_datestamp, datestamp_fmt)?
+        .and_utc()
+        .timestamp();
 
     let _ = writeln!(stderr, "serializing csv");
     let mut csv_writer = csv::Writer::from_writer(Vec::new());
