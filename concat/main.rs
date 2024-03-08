@@ -120,7 +120,7 @@ fn main() -> Result<()> {
                 _ => continue,
             };
             if *datestamp > *max_datestamp {
-                max_datestamp = datestamp.as_ref().to_owned();
+                datestamp.as_ref().clone_into(&mut max_datestamp);
             }
             let relative: PathBuf = components.collect();
             if relative.ends_with("version_downloads.csv") {
