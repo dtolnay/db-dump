@@ -4,7 +4,7 @@
 //!   • HIGH if the crate is disproportionately often downloaded on weekDAYS,
 //!   • and LOW if the crate is disproportionately often downloaded on weekENDS.
 
-use chrono::{Datelike, Duration, Weekday};
+use chrono::{Datelike, TimeDelta, Weekday};
 use db_dump::crates::CrateId;
 use db_dump::versions::VersionId;
 use std::collections::BTreeMap as Map;
@@ -32,7 +32,7 @@ fn main() -> db_dump::Result<()> {
         .load("./db-dump.tar.gz")?;
 
     let max_date = version_downloads.iter().map(|row| row.date).max().unwrap();
-    let start_date = max_date - Duration::weeks(6);
+    let start_date = max_date - TimeDelta::try_weeks(6).unwrap();
 
     // Add up downloads by crate by date
     let mut downloads: Map<CrateId, Downloads> = Map::new();

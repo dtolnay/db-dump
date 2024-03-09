@@ -3,7 +3,8 @@
 //! Computes time series of total downloads by day across all crates on
 //! crates.io.
 
-use chrono::{Date, Utc};
+use chrono::Utc;
+use db_dump::Date;
 use std::collections::BTreeMap as Map;
 
 fn main() -> db_dump::Result<()> {

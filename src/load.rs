@@ -22,7 +22,8 @@ use tar::Archive;
 /// requires far less memory.
 ///
 /// ```no_run
-/// use chrono::{Date, Utc};
+/// use chrono::Utc;
+/// use db_dump::Date;
 /// use std::collections::BTreeMap as Map;
 ///
 /// fn main() -> db_dump::Result<()> {

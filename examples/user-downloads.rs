@@ -3,7 +3,8 @@
 //! Computes time series of the fraction of crates.io downloads attributed to a
 //! single given user's crates.
 
-use chrono::{Date, Utc};
+use chrono::Utc;
+use db_dump::Date;
 use std::collections::{BTreeMap as Map, BTreeSet as Set};
 
 const USER: &str = "dtolnay";
