@@ -2,7 +2,8 @@
 //!
 //! Computes time series of downloads of one specific crate.
 
-use chrono::{Date, Utc};
+use chrono::Utc;
+use db_dump::Date;
 use std::collections::{BTreeMap as Map, BTreeSet as Set};
 
 const CRATE: &str = "syn";
