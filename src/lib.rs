@@ -90,7 +90,6 @@ pub struct DbDump {
     /// <td>name</td>
     /// <td>updated_at</td>
     /// <td>created_at</td>
-    /// <td>downloads</td>
     /// <td>description</td>
     /// <td>homepage</td>
     /// <td>documentation</td>

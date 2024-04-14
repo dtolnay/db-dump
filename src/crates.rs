@@ -24,7 +24,6 @@ pub struct Row {
     pub updated_at: DateTime<Utc>,
     #[serde(deserialize_with = "crate::datetime::de")]
     pub created_at: DateTime<Utc>,
-    pub downloads: u64,
     pub description: String,
     pub homepage: Option<String>,
     pub documentation: Option<String>,
