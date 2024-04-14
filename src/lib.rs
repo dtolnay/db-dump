@@ -27,7 +27,6 @@ mod bool;
 mod date;
 mod datetime;
 mod error;
-mod index;
 mod load;
 
 pub mod categories;
@@ -47,7 +46,6 @@ pub mod versions;
 
 pub use crate::date::Date;
 pub use crate::error::{Error, Result};
-pub use crate::index::Index;
 pub use crate::load::{load_all, Loader};
 
 /// A crates.io DB dump with *everything* deserialized into memory. Use
