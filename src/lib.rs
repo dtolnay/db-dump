@@ -4,7 +4,7 @@
 //! [crates-io]: https://img.shields.io/badge/crates.io-fc8d62?style=for-the-badge&labelColor=555555&logo=rust
 //! [docs-rs]: https://img.shields.io/badge/docs.rs-66c2a5?style=for-the-badge&labelColor=555555&logo=docs.rs
 
-#![doc(html_root_url = "https://docs.rs/db-dump/0.7.0")]
+#![doc(html_root_url = "https://docs.rs/db-dump/0.7.1")]
 #![allow(
     clippy::cast_lossless,
     clippy::cast_possible_truncation,
