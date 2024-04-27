@@ -35,6 +35,7 @@ pub mod crate_owners;
 pub mod crates;
 pub mod crates_categories;
 pub mod crates_keywords;
+pub mod default_versions;
 pub mod dependencies;
 pub mod keywords;
 pub mod metadata;
@@ -113,6 +114,13 @@ pub struct DbDump {
     /// <td>keyword_id</td>
     /// </tr></table>
     pub crates_keywords: Vec<crates_keywords::Row>,
+
+    /// <table style="width:initial"><tr>
+    /// <th>default_versions.csv</th>
+    /// <td>crate_id</td>
+    /// <td>version_id</td>
+    /// </tr></table>
+    pub default_versions: Vec<default_versions::Row>,
 
     /// <table style="width:initial"><tr>
     /// <th>dependencies.csv</th>
