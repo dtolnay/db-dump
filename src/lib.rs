@@ -5,6 +5,7 @@
 //! [docs-rs]: https://img.shields.io/badge/docs.rs-66c2a5?style=for-the-badge&labelColor=555555&logo=docs.rs
 
 #![doc(html_root_url = "https://docs.rs/db-dump/0.7.1")]
+#![cfg_attr(not(check_cfg), allow(unexpected_cfgs))]
 #![allow(
     clippy::cast_lossless,
     clippy::cast_possible_truncation,
