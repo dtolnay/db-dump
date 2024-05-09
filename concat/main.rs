@@ -19,7 +19,6 @@
     clippy::cast_lossless,
     clippy::cast_sign_loss,
     clippy::let_underscore_untyped,
-    clippy::never_loop,
     clippy::too_many_lines,
     clippy::trivially_copy_pass_by_ref,
     clippy::uninlined_format_args
@@ -218,31 +217,31 @@ where
         where
             E: serde::de::Error,
         {
-            loop {
+            'err: {
                 if string.len() != 10 {
-                    break;
+                    break 'err;
                 }
                 let year: u16 = match string[0..4].parse() {
                     Ok(year) => year,
-                    Err(_) => break,
+                    Err(_) => break 'err,
                 };
                 if string[4..5] != *"-" {
-                    break;
+                    break 'err;
                 }
                 let month: u8 = match string[5..7].parse() {
                     Ok(month) => month,
-                    Err(_) => break,
+                    Err(_) => break 'err,
                 };
                 if string[7..8] != *"-" {
-                    break;
+                    break 'err;
                 }
                 let day: u8 = match string[8..10].parse() {
                     Ok(day) => day,
-                    Err(_) => break,
+                    Err(_) => break 'err,
                 };
                 match NaiveDate::from_ymd_opt(year as i32, month as u32, day as u32) {
                     Some(naive_date) => return Ok(naive_date),
-                    None => break,
+                    None => break 'err,
                 }
             }
             Err(serde::de::Error::invalid_value(
