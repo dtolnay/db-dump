@@ -308,31 +308,31 @@ impl<'de> Visitor<'de> for CratesioDateVisitor {
     where
         E: serde::de::Error,
     {
-        loop {
+        'err: {
             if string.len() != 10 {
-                break;
+                break 'err;
             }
             let year: u16 = match string[0..4].parse() {
                 Ok(year) => year,
-                Err(_) => break,
+                Err(_) => break 'err,
             };
             if string[4..5] != *"-" {
-                break;
+                break 'err;
             }
             let month: u8 = match string[5..7].parse() {
                 Ok(month) => month,
-                Err(_) => break,
+                Err(_) => break 'err,
             };
             if string[7..8] != *"-" {
-                break;
+                break 'err;
             }
             let day: u8 = match string[8..10].parse() {
                 Ok(day) => day,
-                Err(_) => break,
+                Err(_) => break 'err,
             };
             let Some(naive_date) = NaiveDate::from_ymd_opt(year as i32, month as u32, day as u32)
             else {
-                break;
+                break 'err;
             };
             return Ok(Date::from(naive_date));
         }

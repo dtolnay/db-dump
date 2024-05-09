@@ -15,7 +15,6 @@
     clippy::module_name_repetitions,
     clippy::must_use_candidate,
     clippy::needless_lifetimes,
-    clippy::never_loop,
     clippy::too_many_lines,
     clippy::uninlined_format_args,
     clippy::unreadable_literal,
