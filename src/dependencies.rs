@@ -121,38 +121,9 @@ where
     deserializer.deserialize_str(VersionReqVisitor)
 }
 
-struct FeaturesSetVisitor;
-
-impl<'de> Visitor<'de> for FeaturesSetVisitor {
-    type Value = Vec<String>;
-
-    fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        formatter.write_str("features set")
-    }
-
-    fn visit_str<E>(self, string: &str) -> Result<Self::Value, E>
-    where
-        E: serde::de::Error,
-    {
-        if string.starts_with('{') && string.ends_with('}') {
-            let csv = &string[1..string.len() - 1];
-            if csv.is_empty() {
-                Ok(Vec::new())
-            } else {
-                Ok(csv.split(',').map(str::to_owned).collect())
-            }
-        } else {
-            Err(serde::de::Error::invalid_value(
-                Unexpected::Str(string),
-                &self,
-            ))
-        }
-    }
-}
-
 fn features_set<'de, D>(deserializer: D) -> Result<Vec<String>, D::Error>
 where
     D: Deserializer<'de>,
 {
-    deserializer.deserialize_str(FeaturesSetVisitor)
+    crate::set::de(deserializer, "features set")
 }

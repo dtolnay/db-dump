@@ -28,6 +28,7 @@ mod date;
 mod datetime;
 mod error;
 mod load;
+mod set;
 
 pub mod categories;
 pub mod crate_downloads;
