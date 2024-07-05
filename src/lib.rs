@@ -204,6 +204,8 @@ pub struct DbDump {
     /// <td>checksum</td>
     /// <td>links</td>
     /// <td>rust_version</td>
+    /// <td>has_lib</td>
+    /// <td>bin_names</td>
     /// </tr></table>
     pub versions: Vec<versions::Row>,
 }
