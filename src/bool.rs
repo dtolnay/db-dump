@@ -7,7 +7,7 @@ impl<'de> Visitor<'de> for BoolVisitor {
     type Value = bool;
 
     fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-        formatter.write_str("'t' for 'f'")
+        formatter.write_str("'t' or 'f'")
     }
 
     fn visit_str<E>(self, string: &str) -> Result<Self::Value, E>
