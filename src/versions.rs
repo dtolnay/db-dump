@@ -4,7 +4,7 @@ use crate::crates::CrateId;
 use crate::users::UserId;
 use chrono::{DateTime, Utc};
 use semver::{BuildMetadata, Op, Version, VersionReq};
-use serde::de::{Deserializer, Unexpected, Visitor};
+use serde::de::{Deserialize, Deserializer, Unexpected, Visitor};
 use serde_derive::{Deserialize, Serialize};
 use std::borrow::Borrow;
 use std::cmp::Ordering;
@@ -47,6 +47,10 @@ pub struct Row {
     pub links: Option<String>,
     #[serde(default, deserialize_with = "rust_version")]
     pub rust_version: Option<Version>,
+    #[serde(default, deserialize_with = "has_lib")]
+    pub has_lib: bool,
+    #[serde(default, deserialize_with = "bin_names")]
+    pub bin_names: Vec<String>,
 }
 
 impl Ord for Row {
@@ -242,4 +246,25 @@ where
     D: Deserializer<'de>,
 {
     deserializer.deserialize_option(RustVersionVisitor)
+}
+
+#[derive(Deserialize)]
+#[serde(transparent)]
+struct HasLib(#[serde(deserialize_with = "crate::bool::de")] bool);
+
+fn has_lib<'de, D>(deserializer: D) -> Result<bool, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    match Deserialize::deserialize(deserializer)? {
+        Some(HasLib(has_lib)) => Ok(has_lib),
+        None => Ok(false),
+    }
+}
+
+fn bin_names<'de, D>(deserializer: D) -> Result<Vec<String>, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    crate::set::optional(deserializer, "binary names set")
 }

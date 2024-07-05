@@ -3,6 +3,7 @@ use std::fmt;
 
 struct SetVisitor<'a> {
     expecting: &'a str,
+    optional: bool,
 }
 
 impl<'de, 'a> Visitor<'de> for SetVisitor<'a> {
@@ -23,6 +24,8 @@ impl<'de, 'a> Visitor<'de> for SetVisitor<'a> {
             } else {
                 Ok(csv.split(',').map(str::to_owned).collect())
             }
+        } else if self.optional && string.is_empty() {
+            Ok(Vec::new())
         } else {
             Err(serde::de::Error::invalid_value(
                 Unexpected::Str(string),
@@ -36,5 +39,18 @@ pub(crate) fn de<'de, D>(deserializer: D, expecting: &str) -> Result<Vec<String>
 where
     D: Deserializer<'de>,
 {
-    deserializer.deserialize_str(SetVisitor { expecting })
+    deserializer.deserialize_str(SetVisitor {
+        expecting,
+        optional: false,
+    })
+}
+
+pub(crate) fn optional<'de, D>(deserializer: D, expecting: &str) -> Result<Vec<String>, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    deserializer.deserialize_str(SetVisitor {
+        expecting,
+        optional: true,
+    })
 }
