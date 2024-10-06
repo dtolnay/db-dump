@@ -19,6 +19,7 @@
     clippy::cast_lossless,
     clippy::cast_sign_loss,
     clippy::let_underscore_untyped,
+    clippy::needless_lifetimes,
     clippy::too_many_lines,
     clippy::trivially_copy_pass_by_ref,
     clippy::uninlined_format_args
