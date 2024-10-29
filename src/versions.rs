@@ -1,6 +1,7 @@
 //! <b style="font-variant:small-caps">versions.csv</b>
 
 use crate::crates::CrateId;
+use crate::ignore::IgnoredStr;
 use crate::users::UserId;
 use chrono::{DateTime, Utc};
 use semver::{BuildMetadata, Op, Version, VersionReq};
@@ -20,37 +21,105 @@ use std::str::FromStr;
 pub struct VersionId(pub u32);
 
 /// One row of **versions.csv**.
-#[derive(Deserialize, Clone, Debug)]
-#[serde(deny_unknown_fields)]
+#[derive(Clone, Debug)]
 #[non_exhaustive]
 pub struct Row {
     /// PRIMARY KEY
     pub id: VersionId,
     pub crate_id: CrateId,
-    #[serde(deserialize_with = "version")]
     pub num: Version,
-    #[serde(deserialize_with = "crate::datetime::de")]
     pub updated_at: DateTime<Utc>,
-    #[serde(deserialize_with = "crate::datetime::de")]
     pub created_at: DateTime<Utc>,
     pub downloads: u64,
-    #[serde(deserialize_with = "features_map")]
     pub features: Map<String, Vec<String>>,
-    #[serde(deserialize_with = "crate::bool::de")]
     pub yanked: bool,
     pub license: String,
     pub crate_size: Option<u64>,
     pub published_by: Option<UserId>,
-    #[serde(deserialize_with = "checksum", default)]
     pub checksum: Option<[u8; 32]>,
-    #[serde(default)]
     pub links: Option<String>,
-    #[serde(default, deserialize_with = "rust_version")]
     pub rust_version: Option<Version>,
-    #[serde(default, deserialize_with = "has_lib")]
     pub has_lib: bool,
-    #[serde(default, deserialize_with = "bin_names")]
     pub bin_names: Vec<String>,
+}
+
+impl<'de> Deserialize<'de> for Row {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        #[derive(Deserialize)]
+        #[serde(deny_unknown_fields)]
+        struct Row {
+            id: VersionId,
+            crate_id: CrateId,
+            #[serde(deserialize_with = "version")]
+            num: Version,
+            #[serde(default)]
+            #[allow(dead_code)]
+            num_no_build: IgnoredStr,
+            #[serde(deserialize_with = "crate::datetime::de")]
+            updated_at: DateTime<Utc>,
+            #[serde(deserialize_with = "crate::datetime::de")]
+            created_at: DateTime<Utc>,
+            downloads: u64,
+            #[serde(deserialize_with = "features_map")]
+            features: Map<String, Vec<String>>,
+            #[serde(deserialize_with = "crate::bool::de")]
+            yanked: bool,
+            license: String,
+            crate_size: Option<u64>,
+            published_by: Option<UserId>,
+            #[serde(deserialize_with = "checksum", default)]
+            checksum: Option<[u8; 32]>,
+            #[serde(default)]
+            links: Option<String>,
+            #[serde(default, deserialize_with = "rust_version")]
+            rust_version: Option<Version>,
+            #[serde(default, deserialize_with = "has_lib")]
+            has_lib: bool,
+            #[serde(default, deserialize_with = "bin_names")]
+            bin_names: Vec<String>,
+        }
+
+        let Row {
+            id,
+            crate_id,
+            num,
+            num_no_build: _,
+            updated_at,
+            created_at,
+            downloads,
+            features,
+            yanked,
+            license,
+            crate_size,
+            published_by,
+            checksum,
+            links,
+            rust_version,
+            has_lib,
+            bin_names,
+        } = Row::deserialize(deserializer)?;
+        Ok(Self {
+            id,
+            crate_id,
+            num,
+            updated_at,
+            created_at,
+            downloads,
+            features,
+            yanked,
+            license,
+            crate_size,
+            published_by,
+            checksum,
+            links,
+            rust_version,
+            has_lib,
+            bin_names,
+        })
+    }
 }
 
 impl Ord for Row {
