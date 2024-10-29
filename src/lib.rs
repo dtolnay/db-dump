@@ -27,6 +27,7 @@ mod bool;
 mod date;
 mod datetime;
 mod error;
+mod ignore;
 mod load;
 mod set;
 
