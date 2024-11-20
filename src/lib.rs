@@ -207,6 +207,7 @@ pub struct DbDump {
     /// <td>rust_version</td>
     /// <td>has_lib</td>
     /// <td>bin_names</td>
+    /// <td>edition</td>
     /// </tr></table>
     pub versions: Vec<versions::Row>,
 }

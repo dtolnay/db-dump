@@ -41,6 +41,7 @@ pub struct Row {
     pub rust_version: Option<Version>,
     pub has_lib: bool,
     pub bin_names: Vec<String>,
+    pub edition: Option<u16>,
 }
 
 impl<'de> Deserialize<'de> for Row {
@@ -80,6 +81,7 @@ impl<'de> Deserialize<'de> for Row {
             has_lib: bool,
             #[serde(default, deserialize_with = "bin_names")]
             bin_names: Vec<String>,
+            edition: Option<u16>,
         }
 
         let Row {
@@ -100,6 +102,7 @@ impl<'de> Deserialize<'de> for Row {
             rust_version,
             has_lib,
             bin_names,
+            edition,
         } = Row::deserialize(deserializer)?;
         Ok(Self {
             id,
@@ -118,6 +121,7 @@ impl<'de> Deserialize<'de> for Row {
             rust_version,
             has_lib,
             bin_names,
+            edition,
         })
     }
 }
