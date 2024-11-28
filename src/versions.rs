@@ -1,7 +1,6 @@
 //! <b style="font-variant:small-caps">versions.csv</b>
 
 use crate::crates::CrateId;
-use crate::ignore::IgnoredStr;
 use crate::users::UserId;
 use chrono::{DateTime, Utc};
 use semver::{BuildMetadata, Op, Version, VersionReq};
@@ -28,6 +27,7 @@ pub struct Row {
     pub id: VersionId,
     pub crate_id: CrateId,
     pub num: Version,
+    pub num_no_build: Version,
     pub updated_at: DateTime<Utc>,
     pub created_at: DateTime<Utc>,
     pub downloads: u64,
@@ -56,9 +56,8 @@ impl<'de> Deserialize<'de> for Row {
             crate_id: CrateId,
             #[serde(deserialize_with = "version")]
             num: Version,
-            #[serde(default)]
-            #[allow(dead_code)]
-            num_no_build: IgnoredStr,
+            #[serde(deserialize_with = "version")]
+            num_no_build: Version,
             #[serde(deserialize_with = "crate::datetime::de")]
             updated_at: DateTime<Utc>,
             #[serde(deserialize_with = "crate::datetime::de")]
@@ -88,7 +87,7 @@ impl<'de> Deserialize<'de> for Row {
             id,
             crate_id,
             num,
-            num_no_build: _,
+            num_no_build,
             updated_at,
             created_at,
             downloads,
@@ -108,6 +107,7 @@ impl<'de> Deserialize<'de> for Row {
             id,
             crate_id,
             num,
+            num_no_build,
             updated_at,
             created_at,
             downloads,
