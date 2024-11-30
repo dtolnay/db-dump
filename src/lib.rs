@@ -17,6 +17,7 @@
     clippy::needless_lifetimes,
     clippy::too_many_lines,
     clippy::uninlined_format_args,
+    clippy::unnecessary_map_or,
     clippy::unreadable_literal,
     clippy::unseparated_literal_suffix
 )]

@@ -22,7 +22,8 @@
     clippy::needless_lifetimes,
     clippy::too_many_lines,
     clippy::trivially_copy_pass_by_ref,
-    clippy::uninlined_format_args
+    clippy::uninlined_format_args,
+    clippy::unnecessary_map_or
 )]
 
 use anyhow::{bail, format_err, Result};
