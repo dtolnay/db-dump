@@ -42,6 +42,10 @@ pub struct Row {
     pub has_lib: bool,
     pub bin_names: Vec<String>,
     pub edition: Option<u16>,
+    pub description: Option<String>,
+    pub homepage: Option<String>,
+    pub documentation: Option<String>,
+    pub repository: Option<String>,
 }
 
 impl<'de> Deserialize<'de> for Row {
@@ -82,6 +86,10 @@ impl<'de> Deserialize<'de> for Row {
             #[serde(default, deserialize_with = "bin_names")]
             bin_names: Vec<String>,
             edition: Option<u16>,
+            description: Option<String>,
+            homepage: Option<String>,
+            documentation: Option<String>,
+            repository: Option<String>,
         }
 
         let Row {
@@ -103,6 +111,10 @@ impl<'de> Deserialize<'de> for Row {
             has_lib,
             bin_names,
             edition,
+            description,
+            homepage,
+            documentation,
+            repository,
         } = Row::deserialize(deserializer)?;
         Ok(Self {
             id,
@@ -122,6 +134,10 @@ impl<'de> Deserialize<'de> for Row {
             has_lib,
             bin_names,
             edition,
+            description,
+            homepage,
+            documentation,
+            repository,
         })
     }
 }
