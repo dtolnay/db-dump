@@ -46,6 +46,8 @@ pub struct Row {
     pub homepage: Option<String>,
     pub documentation: Option<String>,
     pub repository: Option<String>,
+    pub categories: Vec<String>,
+    pub keywords: Vec<String>,
 }
 
 impl<'de> Deserialize<'de> for Row {
@@ -90,6 +92,10 @@ impl<'de> Deserialize<'de> for Row {
             homepage: Option<String>,
             documentation: Option<String>,
             repository: Option<String>,
+            #[serde(default, deserialize_with = "categories")]
+            categories: Vec<String>,
+            #[serde(default, deserialize_with = "keywords")]
+            keywords: Vec<String>,
         }
 
         let Row {
@@ -115,6 +121,8 @@ impl<'de> Deserialize<'de> for Row {
             homepage,
             documentation,
             repository,
+            categories,
+            keywords,
         } = Row::deserialize(deserializer)?;
         Ok(Self {
             id,
@@ -138,6 +146,8 @@ impl<'de> Deserialize<'de> for Row {
             homepage,
             documentation,
             repository,
+            categories,
+            keywords,
         })
     }
 }
@@ -356,4 +366,18 @@ where
     D: Deserializer<'de>,
 {
     crate::set::optional(deserializer, "binary names set")
+}
+
+fn categories<'de, D>(deserializer: D) -> Result<Vec<String>, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    crate::set::de(deserializer, "categories set")
+}
+
+fn keywords<'de, D>(deserializer: D) -> Result<Vec<String>, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    crate::set::de(deserializer, "keywords set")
 }
