@@ -122,6 +122,7 @@ pub struct DbDump {
     /// <th>default_versions.csv</th>
     /// <td>crate_id</td>
     /// <td>version_id</td>
+    /// <td>num_versions</td>
     /// </tr></table>
     pub default_versions: Vec<default_versions::Row>,
 
