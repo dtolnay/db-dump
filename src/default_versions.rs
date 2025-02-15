@@ -11,4 +11,5 @@ use serde_derive::Deserialize;
 pub struct Row {
     pub crate_id: CrateId,
     pub version_id: VersionId,
+    pub num_versions: Option<u32>,
 }
