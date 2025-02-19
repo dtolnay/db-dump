@@ -19,6 +19,7 @@ impl<'de> Visitor<'de> for CratesioDateTimeVisitor {
     {
         // NaiveDateTime::parse_from_str(string, "%Y-%m-%d %H:%M:%S%.6f")
         'err: {
+            let string = string.strip_suffix("+00").unwrap_or(string);
             if string.len() < 19 {
                 break 'err;
             }
