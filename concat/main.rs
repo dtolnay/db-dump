@@ -18,6 +18,7 @@
 #![allow(
     clippy::cast_lossless,
     clippy::cast_sign_loss,
+    clippy::elidable_lifetime_names,
     clippy::let_underscore_untyped,
     clippy::needless_lifetimes,
     clippy::too_many_lines,
