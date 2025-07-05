@@ -15,7 +15,7 @@ repository = "https://github.com/dtolnay/db-dump"
 chrono = "0.4.34"
 csv = "1.2.2"
 flate2 = "1.0.26"
-indicatif = "0.17.5"
+indicatif = "0.18"
 memmap = "0.7"
 semver = { version = "1.0.17", features = ["serde"] }
 serde = "1.0.194"
