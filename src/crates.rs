@@ -31,6 +31,8 @@ pub struct Row {
     pub repository: Option<String>,
     pub max_upload_size: Option<u64>,
     pub max_features: Option<u16>,
+    #[serde(default, deserialize_with = "crate::bool::de")]
+    pub trustpub_only: bool,
 }
 
 impl Ord for Row {
