@@ -102,6 +102,7 @@ pub struct DbDump {
     /// <td>repository</td>
     /// <td>max_upload_size</td>
     /// <td>max_features</td>
+    /// <td>trustpub_only</td>
     /// </tr></table>
     pub crates: Vec<crates::Row>,
 
