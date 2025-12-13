@@ -21,6 +21,7 @@
     clippy::elidable_lifetime_names,
     clippy::let_underscore_untyped,
     clippy::needless_lifetimes,
+    clippy::needless_type_cast,
     clippy::too_many_lines,
     clippy::trivially_copy_pass_by_ref,
     clippy::uninlined_format_args,

@@ -16,6 +16,7 @@
     clippy::module_name_repetitions,
     clippy::must_use_candidate,
     clippy::needless_lifetimes,
+    clippy::needless_type_cast,
     clippy::too_many_lines,
     clippy::uninlined_format_args,
     clippy::unnecessary_map_or,
