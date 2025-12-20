@@ -39,7 +39,7 @@ jobs:
       - run: cargo check --features serde/derive
       - run: cargo test --lib
       - run: cargo test --doc
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v6
         if: matrix.rust == 'nightly' && always()
         with:
           name: Cargo.lock
