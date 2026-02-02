@@ -41,6 +41,7 @@ pub mod crates;
 pub mod crates_categories;
 pub mod crates_keywords;
 pub mod default_versions;
+pub mod deleted_crates;
 pub mod dependencies;
 pub mod keywords;
 pub mod metadata;
@@ -128,6 +129,18 @@ pub struct DbDump {
     /// <td>num_versions</td>
     /// </tr></table>
     pub default_versions: Vec<default_versions::Row>,
+
+    /// <table style="width:initial"><tr>
+    /// <th>deleted_crates.csv</th>
+    /// <td>id</td>
+    /// <td>name</td>
+    /// <td>created_at</td>
+    /// <td>deleted_at</td>
+    /// <td>deleted_by</td>
+    /// <td>message</td>
+    /// <td>available_at</td>
+    /// </tr></table>
+    pub deleted_crates: Vec<deleted_crates::Row>,
 
     /// <table style="width:initial"><tr>
     /// <th>dependencies.csv</th>
