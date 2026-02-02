@@ -50,6 +50,7 @@ pub struct Loader<'a> {
     crates_categories: Option<Callback<'a, crate::crates_categories::Row>>,
     crates_keywords: Option<Callback<'a, crate::crates_keywords::Row>>,
     default_versions: Option<Callback<'a, crate::default_versions::Row>>,
+    deleted_crates: Option<Callback<'a, crate::deleted_crates::Row>>,
     dependencies: Option<Callback<'a, crate::dependencies::Row>>,
     keywords: Option<Callback<'a, crate::keywords::Row>>,
     metadata: Option<Callback<'a, crate::metadata::Row>>,
@@ -114,6 +115,11 @@ impl<'a> Loader<'a> {
         f: impl FnMut(crate::default_versions::Row) + 'a,
     ) -> &mut Self {
         self.default_versions = Some(Callback::new(f));
+        self
+    }
+
+    pub fn deleted_crates(&mut self, f: impl FnMut(crate::deleted_crates::Row) + 'a) -> &mut Self {
+        self.deleted_crates = Some(Callback::new(f));
         self
     }
 
@@ -207,6 +213,7 @@ fn do_load(path: &Path, loader: &mut Loader) -> Result<()> {
             crates_categories,
             crates_keywords,
             default_versions,
+            deleted_crates,
             dependencies,
             keywords,
             metadata,
@@ -224,6 +231,7 @@ fn do_load(path: &Path, loader: &mut Loader) -> Result<()> {
             && crates_categories.as_ref().map_or(true, Callback::done)
             && crates_keywords.as_ref().map_or(true, Callback::done)
             && default_versions.as_ref().map_or(true, Callback::done)
+            && deleted_crates.as_ref().map_or(true, Callback::done)
             && dependencies.as_ref().map_or(true, Callback::done)
             && keywords.as_ref().map_or(true, Callback::done)
             && metadata.as_ref().map_or(true, Callback::done)
@@ -256,6 +264,7 @@ fn do_load(path: &Path, loader: &mut Loader) -> Result<()> {
             crates_categories,
             crates_keywords,
             default_versions,
+            deleted_crates,
             dependencies,
             keywords,
             metadata,
@@ -282,6 +291,8 @@ fn do_load(path: &Path, loader: &mut Loader) -> Result<()> {
             ("crates_keywords", read(crates_keywords, entry))
         } else if path.ends_with("default_versions.csv") {
             ("default_versions", read(default_versions, entry))
+        } else if path.ends_with("deleted_crates.csv") {
+            ("deleted_crates", read(deleted_crates, entry))
         } else if path.ends_with("dependencies.csv") {
             ("dependencies", read(dependencies, entry))
         } else if path.ends_with("keywords.csv") {
@@ -400,6 +411,7 @@ fn do_load_all(path: &Path) -> Result<DbDump> {
     let mut crates_categories = Vec::new();
     let mut crates_keywords = Vec::new();
     let mut default_versions = Vec::new();
+    let mut deleted_crates = Vec::new();
     let mut dependencies = Vec::new();
     let mut keywords = Vec::new();
     let mut metadata = crate::metadata::Row { total_downloads: 0 };
@@ -417,6 +429,7 @@ fn do_load_all(path: &Path) -> Result<DbDump> {
         crates_categories: Some(Callback::new(|row| crates_categories.push(row))),
         crates_keywords: Some(Callback::new(|row| crates_keywords.push(row))),
         default_versions: Some(Callback::new(|row| default_versions.push(row))),
+        deleted_crates: Some(Callback::new(|row| deleted_crates.push(row))),
         dependencies: Some(Callback::new(|row| dependencies.push(row))),
         keywords: Some(Callback::new(|row| keywords.push(row))),
         metadata: Some(Callback::new(|row| metadata = row)),
@@ -438,6 +451,7 @@ fn do_load_all(path: &Path) -> Result<DbDump> {
         crates_categories,
         crates_keywords,
         default_versions,
+        deleted_crates,
         dependencies,
         keywords,
         metadata,
