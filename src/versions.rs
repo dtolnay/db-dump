@@ -48,6 +48,8 @@ pub struct Row {
     pub repository: Option<String>,
     pub categories: Vec<String>,
     pub keywords: Vec<String>,
+    pub zip_sha256: [u8; 32],
+    pub zip_json_sha256: [u8; 32],
 }
 
 impl<'de> Deserialize<'de> for Row {
@@ -96,6 +98,10 @@ impl<'de> Deserialize<'de> for Row {
             categories: Vec<String>,
             #[serde(default, deserialize_with = "keywords")]
             keywords: Vec<String>,
+            #[serde(deserialize_with = "sha256", default)]
+            zip_sha256: [u8; 32],
+            #[serde(deserialize_with = "sha256", default)]
+            zip_json_sha256: [u8; 32],
         }
 
         let Row {
@@ -123,6 +129,8 @@ impl<'de> Deserialize<'de> for Row {
             repository,
             categories,
             keywords,
+            zip_sha256,
+            zip_json_sha256,
         } = Row::deserialize(deserializer)?;
         Ok(Self {
             id,
@@ -148,6 +156,8 @@ impl<'de> Deserialize<'de> for Row {
             repository,
             categories,
             keywords,
+            zip_sha256,
+            zip_json_sha256,
         })
     }
 }
