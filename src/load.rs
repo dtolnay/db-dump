@@ -56,6 +56,7 @@ pub struct Loader<'a> {
     metadata: Option<Callback<'a, crate::metadata::Row>>,
     oauth_github: Option<Callback<'a, crate::oauth_github::Row>>,
     reserved_crate_names: Option<Callback<'a, crate::reserved_crate_names::Row>>,
+    reserved_usernames: Option<Callback<'a, crate::reserved_usernames::Row>>,
     teams: Option<Callback<'a, crate::teams::Row>>,
     users: Option<Callback<'a, crate::users::Row>>,
     version_downloads: Option<Callback<'a, crate::version_downloads::Row>>,
@@ -152,6 +153,14 @@ impl<'a> Loader<'a> {
         self
     }
 
+    pub fn reserved_usernames(
+        &mut self,
+        f: impl FnMut(crate::reserved_usernames::Row) + 'a,
+    ) -> &mut Self {
+        self.reserved_usernames = Some(Callback::new(f));
+        self
+    }
+
     pub fn teams(&mut self, f: impl FnMut(crate::teams::Row) + 'a) -> &mut Self {
         self.teams = Some(Callback::new(f));
         self
@@ -225,6 +234,7 @@ fn do_load(path: &Path, loader: &mut Loader) -> Result<()> {
             metadata,
             oauth_github,
             reserved_crate_names,
+            reserved_usernames,
             teams,
             users,
             version_downloads,
@@ -244,6 +254,7 @@ fn do_load(path: &Path, loader: &mut Loader) -> Result<()> {
             && metadata.as_ref().map_or(true, Callback::done)
             && oauth_github.as_ref().map_or(true, Callback::done)
             && reserved_crate_names.as_ref().map_or(true, Callback::done)
+            && reserved_usernames.as_ref().map_or(true, Callback::done)
             && teams.as_ref().map_or(true, Callback::done)
             && users.as_ref().map_or(true, Callback::done)
             && version_downloads.as_ref().map_or(true, Callback::done)
@@ -278,6 +289,7 @@ fn do_load(path: &Path, loader: &mut Loader) -> Result<()> {
             metadata,
             oauth_github,
             reserved_crate_names,
+            reserved_usernames,
             teams,
             users,
             version_downloads,
@@ -312,6 +324,8 @@ fn do_load(path: &Path, loader: &mut Loader) -> Result<()> {
             ("oauth_github", read(oauth_github, entry))
         } else if path.ends_with("reserved_crate_names.csv") {
             ("reserved_crate_names", read(reserved_crate_names, entry))
+        } else if path.ends_with("reserved_usernames.csv") {
+            ("reserved_usernames", read(reserved_usernames, entry))
         } else if path.ends_with("teams.csv") {
             ("teams", read(teams, entry))
         } else if path.ends_with("users.csv") {
@@ -428,6 +442,7 @@ fn do_load_all(path: &Path) -> Result<DbDump> {
     let mut metadata = crate::metadata::Row { total_downloads: 0 };
     let mut oauth_github = Vec::new();
     let mut reserved_crate_names = Vec::new();
+    let mut reserved_usernames = Vec::new();
     let mut teams = Vec::new();
     let mut users = Vec::new();
     let mut version_downloads = Vec::new();
@@ -447,6 +462,7 @@ fn do_load_all(path: &Path) -> Result<DbDump> {
         metadata: Some(Callback::new(|row| metadata = row)),
         oauth_github: Some(Callback::new(|row| oauth_github.push(row))),
         reserved_crate_names: Some(Callback::new(|row| reserved_crate_names.push(row))),
+        reserved_usernames: Some(Callback::new(|row| reserved_usernames.push(row))),
         teams: Some(Callback::new(|row| teams.push(row))),
         users: Some(Callback::new(|row| users.push(row))),
         version_downloads: Some(Callback::new(|row| version_downloads.push(row))),
@@ -470,6 +486,7 @@ fn do_load_all(path: &Path) -> Result<DbDump> {
         metadata,
         oauth_github,
         reserved_crate_names,
+        reserved_usernames,
         teams,
         users,
         version_downloads,

@@ -47,6 +47,7 @@ pub mod keywords;
 pub mod metadata;
 pub mod oauth_github;
 pub mod reserved_crate_names;
+pub mod reserved_usernames;
 pub mod teams;
 pub mod users;
 pub mod version_downloads;
@@ -187,6 +188,12 @@ pub struct DbDump {
     /// <td>name</td>
     /// </tr></table>
     pub reserved_crate_names: Vec<reserved_crate_names::Row>,
+
+    /// <table style="width:initial"><tr>
+    /// <th>reserved_usernames.csv</th>
+    /// <td>username</td>
+    /// </tr></table>
+    pub reserved_usernames: Vec<reserved_usernames::Row>,
 
     /// <table style="width:initial"><tr>
     /// <th>teams.csv</th>
