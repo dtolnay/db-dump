@@ -36,7 +36,7 @@ pub struct Row {
     pub license: String,
     pub crate_size: Option<u64>,
     pub published_by: Option<UserId>,
-    pub checksum: Option<[u8; 32]>,
+    pub tar_sha256: [u8; 32],
     pub links: Option<String>,
     pub rust_version: Option<Version>,
     pub has_lib: bool,
@@ -77,8 +77,8 @@ impl<'de> Deserialize<'de> for Row {
             license: String,
             crate_size: Option<u64>,
             published_by: Option<UserId>,
-            #[serde(deserialize_with = "checksum", default)]
-            checksum: Option<[u8; 32]>,
+            #[serde(deserialize_with = "sha256")]
+            tar_sha256: [u8; 32],
             #[serde(default)]
             links: Option<String>,
             #[serde(default, deserialize_with = "rust_version")]
@@ -111,7 +111,7 @@ impl<'de> Deserialize<'de> for Row {
             license,
             crate_size,
             published_by,
-            checksum,
+            tar_sha256,
             links,
             rust_version,
             has_lib,
@@ -136,7 +136,7 @@ impl<'de> Deserialize<'de> for Row {
             license,
             crate_size,
             published_by,
-            checksum,
+            tar_sha256,
             links,
             rust_version,
             has_lib,
@@ -255,10 +255,10 @@ where
     deserializer.deserialize_str(FeaturesMapVisitor)
 }
 
-struct ChecksumVisitor;
+struct Sha256Visitor;
 
-impl<'de> Visitor<'de> for ChecksumVisitor {
-    type Value = Option<[u8; 32]>;
+impl<'de> Visitor<'de> for Sha256Visitor {
+    type Value = [u8; 32];
 
     fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
         formatter.write_str("checksum as 64-character hex string")
@@ -268,28 +268,29 @@ impl<'de> Visitor<'de> for ChecksumVisitor {
     where
         E: serde::de::Error,
     {
-        match string.len() {
-            0 => Ok(None),
-            64 => {
-                let mut checksum = [0u8; 32];
+        if let Some(bytes) = string.strip_prefix("\\x")
+            && bytes.len() == 64
+        {
+            let mut sha256 = [0u8; 32];
+            'parse: {
                 for i in 0..32 {
-                    match u8::from_str_radix(&string[i * 2..][..2], 16) {
-                        Ok(byte) => checksum[i] = byte,
-                        Err(_) => return Err(E::invalid_value(Unexpected::Str(string), &self)),
+                    match u8::from_str_radix(&bytes[i * 2..][..2], 16) {
+                        Ok(byte) => sha256[i] = byte,
+                        Err(_) => break 'parse,
                     }
                 }
-                Ok(Some(checksum))
+                return Ok(sha256);
             }
-            _ => Err(E::invalid_value(Unexpected::Str(string), &self)),
         }
+        Err(E::invalid_value(Unexpected::Str(string), &self))
     }
 }
 
-fn checksum<'de, D>(deserializer: D) -> Result<Option<[u8; 32]>, D::Error>
+fn sha256<'de, D>(deserializer: D) -> Result<[u8; 32], D::Error>
 where
     D: Deserializer<'de>,
 {
-    deserializer.deserialize_str(ChecksumVisitor)
+    deserializer.deserialize_str(Sha256Visitor)
 }
 
 struct RustVersionVisitor;
