@@ -22,6 +22,7 @@ pub struct Row {
     pub gh_login: String,
     pub name: Option<String>,
     pub gh_id: i32,
+    pub username: String,
     #[serde(deserialize_with = "crate::datetime::option::de")]
     pub created_at: Option<DateTime<Utc>>,
 }
