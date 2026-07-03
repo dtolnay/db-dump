@@ -54,6 +54,7 @@ pub struct Loader<'a> {
     dependencies: Option<Callback<'a, crate::dependencies::Row>>,
     keywords: Option<Callback<'a, crate::keywords::Row>>,
     metadata: Option<Callback<'a, crate::metadata::Row>>,
+    oauth_github: Option<Callback<'a, crate::oauth_github::Row>>,
     reserved_crate_names: Option<Callback<'a, crate::reserved_crate_names::Row>>,
     teams: Option<Callback<'a, crate::teams::Row>>,
     users: Option<Callback<'a, crate::users::Row>>,
@@ -138,6 +139,11 @@ impl<'a> Loader<'a> {
         self
     }
 
+    pub fn oauth_github(&mut self, f: impl FnMut(crate::oauth_github::Row) + 'a) -> &mut Self {
+        self.oauth_github = Some(Callback::new(f));
+        self
+    }
+
     pub fn reserved_crate_names(
         &mut self,
         f: impl FnMut(crate::reserved_crate_names::Row) + 'a,
@@ -217,6 +223,7 @@ fn do_load(path: &Path, loader: &mut Loader) -> Result<()> {
             dependencies,
             keywords,
             metadata,
+            oauth_github,
             reserved_crate_names,
             teams,
             users,
@@ -235,6 +242,7 @@ fn do_load(path: &Path, loader: &mut Loader) -> Result<()> {
             && dependencies.as_ref().map_or(true, Callback::done)
             && keywords.as_ref().map_or(true, Callback::done)
             && metadata.as_ref().map_or(true, Callback::done)
+            && oauth_github.as_ref().map_or(true, Callback::done)
             && reserved_crate_names.as_ref().map_or(true, Callback::done)
             && teams.as_ref().map_or(true, Callback::done)
             && users.as_ref().map_or(true, Callback::done)
@@ -268,6 +276,7 @@ fn do_load(path: &Path, loader: &mut Loader) -> Result<()> {
             dependencies,
             keywords,
             metadata,
+            oauth_github,
             reserved_crate_names,
             teams,
             users,
@@ -299,6 +308,8 @@ fn do_load(path: &Path, loader: &mut Loader) -> Result<()> {
             ("keywords", read(keywords, entry))
         } else if path.ends_with("metadata.csv") {
             ("metadata", read(metadata, entry))
+        } else if path.ends_with("oauth_github.csv") {
+            ("oauth_github", read(oauth_github, entry))
         } else if path.ends_with("reserved_crate_names.csv") {
             ("reserved_crate_names", read(reserved_crate_names, entry))
         } else if path.ends_with("teams.csv") {
@@ -415,6 +426,7 @@ fn do_load_all(path: &Path) -> Result<DbDump> {
     let mut dependencies = Vec::new();
     let mut keywords = Vec::new();
     let mut metadata = crate::metadata::Row { total_downloads: 0 };
+    let mut oauth_github = Vec::new();
     let mut reserved_crate_names = Vec::new();
     let mut teams = Vec::new();
     let mut users = Vec::new();
@@ -433,6 +445,7 @@ fn do_load_all(path: &Path) -> Result<DbDump> {
         dependencies: Some(Callback::new(|row| dependencies.push(row))),
         keywords: Some(Callback::new(|row| keywords.push(row))),
         metadata: Some(Callback::new(|row| metadata = row)),
+        oauth_github: Some(Callback::new(|row| oauth_github.push(row))),
         reserved_crate_names: Some(Callback::new(|row| reserved_crate_names.push(row))),
         teams: Some(Callback::new(|row| teams.push(row))),
         users: Some(Callback::new(|row| users.push(row))),
@@ -455,6 +468,7 @@ fn do_load_all(path: &Path) -> Result<DbDump> {
         dependencies,
         keywords,
         metadata,
+        oauth_github,
         reserved_crate_names,
         teams,
         users,

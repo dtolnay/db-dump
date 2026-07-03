@@ -45,6 +45,7 @@ pub mod deleted_crates;
 pub mod dependencies;
 pub mod keywords;
 pub mod metadata;
+pub mod oauth_github;
 pub mod reserved_crate_names;
 pub mod teams;
 pub mod users;
@@ -171,6 +172,15 @@ pub struct DbDump {
     /// <td>total_downloads</td>
     /// </tr></table>
     pub metadata: metadata::Row,
+
+    /// <table style="width:initial"><tr>
+    /// <th>oauth_github.csv</th>
+    /// <td>user_id</td>
+    /// <td>account_id</td>
+    /// <td>login</td>
+    /// <td>avatar</td>
+    /// </tr></table>
+    pub oauth_github: Vec<oauth_github::Row>,
 
     /// <table style="width:initial"><tr>
     /// <th>reserved_crate_names.csv</th>
