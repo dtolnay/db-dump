@@ -22,8 +22,8 @@ pub struct Row {
     pub gh_login: String,
     pub name: Option<String>,
     pub gh_id: i32,
-    #[serde(deserialize_with = "crate::datetime::de")]
-    pub created_at: DateTime<Utc>,
+    #[serde(deserialize_with = "crate::datetime::option::de")]
+    pub created_at: Option<DateTime<Utc>>,
 }
 
 impl Ord for Row {
