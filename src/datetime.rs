@@ -98,6 +98,43 @@ where
     deserializer.deserialize_str(CratesioDateTimeVisitor)
 }
 
+pub(crate) mod option {
+    use chrono::{DateTime, Utc};
+    use serde::de::{Deserializer, Visitor};
+    use std::fmt;
+
+    struct CratesioDateTimeVisitor;
+
+    impl<'de> Visitor<'de> for CratesioDateTimeVisitor {
+        type Value = Option<DateTime<Utc>>;
+
+        fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+            formatter.write_str("datetime in format 'YYYY-MM-DD HH:MM:SS.SSSSSS'")
+        }
+
+        fn visit_none<E>(self) -> Result<Self::Value, E>
+        where
+            E: serde::de::Error,
+        {
+            Ok(None)
+        }
+
+        fn visit_some<D>(self, deserializer: D) -> Result<Self::Value, D::Error>
+        where
+            D: Deserializer<'de>,
+        {
+            crate::datetime::de(deserializer).map(Some)
+        }
+    }
+
+    pub(crate) fn de<'de, D>(deserializer: D) -> Result<Option<DateTime<Utc>>, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        deserializer.deserialize_option(CratesioDateTimeVisitor)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use chrono::{NaiveDate, NaiveDateTime, NaiveTime, TimeZone, Utc};
