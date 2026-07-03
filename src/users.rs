@@ -20,7 +20,6 @@ pub struct Row {
     pub id: UserId,
     pub gh_login: String,
     pub name: Option<String>,
-    pub gh_avatar: String,
     pub gh_id: i32,
 }
 
