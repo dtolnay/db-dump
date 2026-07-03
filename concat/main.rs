@@ -28,13 +28,13 @@
     clippy::unnecessary_map_or
 )]
 
-use anyhow::{bail, format_err, Result};
+use anyhow::{Result, bail, format_err};
 use chrono::{Datelike, NaiveDate, NaiveDateTime};
 use clap::Parser;
 use csv::StringRecord;
+use flate2::Compression;
 use flate2::read::GzDecoder;
 use flate2::write::GzEncoder;
-use flate2::Compression;
 use memmap::Mmap;
 use serde::de::{Deserializer, Unexpected, Visitor};
 use serde::ser::Serializer;

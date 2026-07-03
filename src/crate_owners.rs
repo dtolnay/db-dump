@@ -1,7 +1,7 @@
 //! <b style="font-variant:small-caps">crate_owners.csv</b>
 
 use crate::crates::CrateId;
-use crate::error::{err, Result};
+use crate::error::{Result, err};
 use crate::load::FromRecord;
 use crate::teams::TeamId;
 use crate::users::UserId;
@@ -54,7 +54,7 @@ fn de(record: &StringRecord, headers: &StringRecord) -> Result<Row> {
             return Err(err(format_args!(
                 "unrecognized crate_owners.csv owner_kind: {}",
                 other,
-            )))
+            )));
         }
     };
 

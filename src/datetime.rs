@@ -138,8 +138,8 @@ pub(crate) mod option {
 #[cfg(test)]
 mod tests {
     use chrono::{NaiveDate, NaiveDateTime, NaiveTime, TimeZone, Utc};
-    use serde::de::value::Error;
     use serde::de::IntoDeserializer;
+    use serde::de::value::Error;
 
     #[test]
     fn test_de() {

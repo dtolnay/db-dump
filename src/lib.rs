@@ -53,7 +53,7 @@ pub mod versions;
 
 pub use crate::date::Date;
 pub use crate::error::{Error, Result};
-pub use crate::load::{load_all, Loader};
+pub use crate::load::{Loader, load_all};
 
 /// A crates.io DB dump with *everything* deserialized into memory. Use
 /// [`Loader`] to load only parts of a dump, which is more efficient.

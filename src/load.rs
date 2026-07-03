@@ -1,5 +1,5 @@
-use crate::error::{err, Result};
 use crate::DbDump;
+use crate::error::{Result, err};
 use csv::StringRecord;
 use flate2::read::GzDecoder;
 use indicatif::{ProgressBar, ProgressDrawTarget, ProgressStyle};
