@@ -1,5 +1,6 @@
 //! <b style="font-variant:small-caps">users.csv</b>
 
+use chrono::{DateTime, Utc};
 use serde_derive::{Deserialize, Serialize};
 use std::borrow::Borrow;
 use std::cmp::Ordering;
@@ -21,6 +22,8 @@ pub struct Row {
     pub gh_login: String,
     pub name: Option<String>,
     pub gh_id: i32,
+    #[serde(deserialize_with = "crate::datetime::de")]
+    pub created_at: DateTime<Utc>,
 }
 
 impl Ord for Row {

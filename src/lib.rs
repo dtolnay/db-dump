@@ -195,6 +195,7 @@ pub struct DbDump {
     /// <td>gh_login</td>
     /// <td>name</td>
     /// <td>gh_id</td>
+    /// <td>created_at</td>
     /// </tr></table>
     pub users: Vec<users::Row>,
 
