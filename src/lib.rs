@@ -11,6 +11,7 @@
     clippy::cast_possible_truncation,
     clippy::doc_markdown,
     clippy::elidable_lifetime_names,
+    clippy::manual_assert,
     clippy::missing_errors_doc,
     clippy::missing_panics_doc,
     clippy::module_name_repetitions,
