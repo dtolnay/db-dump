@@ -48,8 +48,8 @@ pub struct Row {
     pub repository: Option<String>,
     pub categories: Vec<String>,
     pub keywords: Vec<String>,
-    pub zip_sha256: [u8; 32],
-    pub zip_json_sha256: [u8; 32],
+    pub zip_sha256: Option<[u8; 32]>,
+    pub zip_json_sha256: Option<[u8; 32]>,
 }
 
 impl<'de> Deserialize<'de> for Row {
@@ -98,10 +98,10 @@ impl<'de> Deserialize<'de> for Row {
             categories: Vec<String>,
             #[serde(default, deserialize_with = "keywords")]
             keywords: Vec<String>,
-            #[serde(deserialize_with = "sha256", default)]
-            zip_sha256: [u8; 32],
-            #[serde(deserialize_with = "sha256", default)]
-            zip_json_sha256: [u8; 32],
+            #[serde(deserialize_with = "nullable_sha256", default)]
+            zip_sha256: Option<[u8; 32]>,
+            #[serde(deserialize_with = "nullable_sha256", default)]
+            zip_json_sha256: Option<[u8; 32]>,
         }
 
         let Row {
@@ -301,6 +301,34 @@ where
     D: Deserializer<'de>,
 {
     deserializer.deserialize_str(Sha256Visitor)
+}
+
+struct NullableSha256Visitor;
+
+impl<'de> Visitor<'de> for NullableSha256Visitor {
+    type Value = Option<[u8; 32]>;
+
+    fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+        formatter.write_str("checksum as 64-character hex string")
+    }
+
+    fn visit_none<E>(self) -> Result<Self::Value, E> {
+        Ok(None)
+    }
+
+    fn visit_some<D>(self, deserializer: D) -> Result<Self::Value, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        sha256(deserializer).map(Some)
+    }
+}
+
+fn nullable_sha256<'de, D>(deserializer: D) -> Result<Option<[u8; 32]>, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    deserializer.deserialize_option(NullableSha256Visitor)
 }
 
 struct RustVersionVisitor;
