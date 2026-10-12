@@ -22,7 +22,7 @@ fn main() -> db_dump::Result<()> {
     let mut version_downloads = Vec::new();
     db_dump::Loader::new()
         .users(|row| {
-            if row.gh_login == USER {
+            if row.username == USER {
                 user_id = Some(row.id);
             }
         })
