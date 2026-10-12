@@ -210,7 +210,6 @@ pub struct DbDump {
     /// <table style="width:initial"><tr>
     /// <th>users.csv</th>
     /// <td>id</td>
-    /// <td>gh_login</td>
     /// <td>name</td>
     /// <td>gh_id</td>
     /// <td>username</td>

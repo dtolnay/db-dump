@@ -19,7 +19,6 @@ pub struct UserId(pub u32);
 pub struct Row {
     /// PRIMARY KEY
     pub id: UserId,
-    pub gh_login: String,
     pub name: Option<String>,
     pub gh_id: i32,
     pub username: String,
