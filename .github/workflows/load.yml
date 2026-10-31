@@ -30,6 +30,6 @@ jobs:
       - name: curl https://static.crates.io/db-dump.tar.gz
         run: curl https://static.crates.io/db-dump.tar.gz --user-agent github.com/dtolnay/db-dump --location --remote-name --silent --show-error --fail --retry 2
       - run: tar tf db-dump.tar.gz | head -1
-      - run: cargo run --release --example load-all
+      - run: cargo run --release --example stream-all
         env:
           RUSTFLAGS: --cfg db_dump_panic_on_unrecognized_csv ${{env.RUSTFLAGS}}
