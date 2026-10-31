@@ -14,7 +14,7 @@
   width=5in,
   height=3.5in,
   ymin=100,
-  ymax=500000000,
+  ymax=20000000000,
   ymode=log,
   log ticks with fixed point,
   date coordinates in=x,
@@ -23,17 +23,17 @@
   title style={at={(0.5,0.97)},font=\sffamily},
   tick label style={font=\sansmath\sffamily\scriptsize},
   xmin=2014-01-01,
-  xmax=2026-01-01,
-  xtick={2014-01-01,2015-01-01,2016-01-01,2017-01-01,2018-01-01,2019-01-01,2020-01-01,2021-01-01,2022-01-01,2023-01-01,2024-01-01,2025-01-01,2026-01-01},
+  xmax=2029-01-01,
+  xtick={2014-01-01,2015-01-01,2016-01-01,2017-01-01,2018-01-01,2019-01-01,2020-01-01,2021-01-01,2022-01-01,2023-01-01,2024-01-01,2025-01-01,2026-01-01,2027-01-01,2028-01-01,2029-01-01},
   xticklabel=\year,
-  ytick={99,1000,10000,100000,1000000,10000000,100000000,1000000000},
+  ytick={99,1000,10000,100000,1000000,10000000,100000000,1000000000,10000000000},
   scaled y ticks=false,
   grid=both,
   no markers,
   every axis plot/.append style={semithick},
   smooth,
 ]
-  \draw[dashed, red] (2014-01-01,20000) -- (2024-01-01,175000000);
+  \draw[dashed, red] (2019-01-01,2800000) -- (2029-01-01,4200000000);
   \addplot[
     line,
     y filter/.code={
@@ -53,7 +53,7 @@
   ] table[x index=0] \totaldownloads;
 \end{axis}
 \pgfresetboundingbox\path
-  (current axis.south west) -- ++(-0.54in,-0.15in)
+  (current axis.south west) -- ++(-0.69in,-0.15in)
   rectangle (current axis.north east) -- ++(0.13in,0.2in);
 \end{tikzpicture}
 \end{document}
