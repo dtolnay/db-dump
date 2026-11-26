@@ -211,7 +211,6 @@ pub struct DbDump {
     /// <th>users.csv</th>
     /// <td>id</td>
     /// <td>name</td>
-    /// <td>gh_id</td>
     /// <td>username</td>
     /// <td>created_at</td>
     /// </tr></table>
